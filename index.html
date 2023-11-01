@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Integer Input Form</title>
+    <style>
+        body {
+            background-color: #1e6091; /* Dark blue background color */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: white; /* Text color */
+            text-align: center;
+        }
+
+        form {
+            background-color: white; /* Form background color */
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        label, input, br {
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Integer Values</h1>
+    <form action="/store" method="post">
+        <label for="input1">Integer 1:</label>
+        <input type="number" id="input1" name="integer1" required pattern="\d*" title="Please enter an integer value">
+        <br>
+        <label for="input2">Integer 2:</label>
+        <input type="number" id="input2" name="integer2" required pattern="\d*" title="Please enter an integer value">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
