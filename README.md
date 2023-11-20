@@ -1,1 +1,1 @@
-Skeleton App repository for creating a basic CI/CD pipeline
+HZ Planner app repository for UVC INT Group 5
