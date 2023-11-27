@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<a class="courses" href="/courses">Course Overview</a>
+<a class="notes" href="/notes">Notes</a>
+
+<style>
+    .courses {
+        border: 2px solid black;
+        color: black;
+	}
+    .notes {
+        border: 2px solid black;
+        color: black;
+	}
+</style>
