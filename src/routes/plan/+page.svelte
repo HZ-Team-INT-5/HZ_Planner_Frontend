@@ -1,8 +1,4 @@
-<script>
-    import FloorPlan from '../components/FloorPlan.svelte';
-  </script>
-  
-  <style>
+<style>
     /* Business-level styling with blue theme */
     h1 {
       text-align: center;
@@ -18,9 +14,8 @@
       border: 1px solid #b3d9ff;
       border-radius: 8px;
     }
-  </style>
+</style>
   
-  <div class="container">
+<div class="container">
     <h1>Building Floor Plans</h1>
-    <FloorPlan />
-  </div>
+</div>
