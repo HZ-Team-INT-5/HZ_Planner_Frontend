@@ -74,7 +74,7 @@
 	</ul>
 
 <!--TODO
-Add semi-transparent days from prev and following month to the page.-->
+Add semi-transparent days from prev and following month to the page..-->
 				
 <style>
 	ul {list-style-type: none;}
