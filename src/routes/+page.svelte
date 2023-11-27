@@ -71,12 +71,6 @@
 				margin-bottom: 20px; /* Adjust margin as needed */
 			}
 
-			.logo-container {
-				display: flex;
-				justify-content: center;
-				margin-bottom: 20px; /* Adjust margin as needed */
-			}
-
 			.logo-container img {
 				max-width: 50%; /* Ensure the logo doesn't exceed its container */
 				height: auto;
@@ -116,7 +110,7 @@
 				<h1>HZ Planner</h1>
 				<ul>
 					<li><a href="/home">Home</a></li>
-					<ul><a href="/about">About</a></ul>
+					<ul><a class="about" href="/about">About</a></ul>
 					<!-- <li><a href="/register">Register</a></li> -->
 				</ul>
 			</div>
