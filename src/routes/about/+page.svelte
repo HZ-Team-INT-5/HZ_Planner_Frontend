@@ -140,8 +140,8 @@
 	}
 
   .logo {
-  width: 10%;
-  height: 10%;
+  width: 25%;
+  height: 25%;
 }
 
 	.card-section {
