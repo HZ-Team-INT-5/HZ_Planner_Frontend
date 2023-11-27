@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Hz Planner</title>
+		<title>HZ Planner</title>
 		<style>
 			/* CSS styles embedded in the <style> tag */
 			* {
@@ -103,8 +103,9 @@
 				background-color: #3498db;
 				color: #ffffff;
 				text-align: center;
-				padding: 10px 0;
+				padding: 15px;
 				width: 100%;
+                height: 50px;
 			}
 		</style>
 	</head>
@@ -112,44 +113,45 @@
 	<body>
 		<header>
 			<div class="navbar">
-				<h1>Hz Planner</h1>
+				<h1>HZ Planner</h1>
 				<ul>
-					<li><a href="#home">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#register">Register</a></li>
+					<li><a href="/home">Home</a></li>
+					<ul><a href="/about">About</a></ul>
+					<!-- <li><a href="/register">Register</a></li> -->
 				</ul>
 			</div>
 		</header>
 
 		<main>
 			<div class="welcome-message">
-				<p>Welcome to the Hz Planner for first year ICT students at the HZ!</p>
+				<p>Welcome to the HZ Planner for first year ICT students at the HZ!</p>
 				<p>Explore the pages of our book below:</p>
 			</div>
 			<!-- Logo section -->
 			<div class="logo-container">
-				<img src="logo.jpg" alt="Hz Planner Logo" />
+				<img src="logo.jpg" alt="HZ Planner Logo" />
 			</div>
 			<!-- Cards section -->
             <div class="cards-section">
 			<section class="card">
-				<h2>Card 1</h2>
-				<p>Content for Card 1...</p>
+				<h2>Calendar</h2>
+                <a class="calendar" href="/calendar">Calendar</a>
 			</section>
 
 			<section class="card">
-				<h2>Card 2</h2>
-				<p>Content for Card 2...</p>
-			</section>
+				<h2>Course Overview</h2>
+                <a class="courses" href="/courses">Course Overview</a>
+            </section>
 
 			<section class="card">
-				<h2>Card 3</h2>
-				<p>Content for Card 3...</p>
-			</section>
+				<h2>Notes</h2>
+                <a class="notes" href="/notes">Notes</a>
+            </section>
 
 			<section class="card">
-				<h2>Card 4</h2>
-				<p>Content for Card 4...</p>
+				<h2>Floor Plan</h2>
+				<p>To be added...</p>
+                <!-- <a class="floorplan" href="/floorplan">Floor Plan</a> -->
 			</section>
 
 			<section class="card">
@@ -179,8 +181,7 @@
         </div>
 			<footer>
 				<!-- Footer content -->
-				<p>&copy; 2023 Hz Planner. All rights reserved.</p>
+				<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 			</footer>
-		</main></body
-	>
+		</main></body>
 </html>
