@@ -155,8 +155,8 @@
 			</section>
 
 			<section class="card">
-				<h2>Card 5</h2>
-				<p>Content for Card 5...</p>
+				<h2>Notifications</h2>
+				<a class="notifications" href="/notifications">Notifications</a>
 			</section>
 
 			<section class="card">
