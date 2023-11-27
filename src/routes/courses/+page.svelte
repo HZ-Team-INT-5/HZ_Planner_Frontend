@@ -1,1 +1,0 @@
-<h1>Pain and suffering</h1>
