@@ -85,6 +85,7 @@
 		flex-direction: column;
 		min-height: 100vh;
 		margin: 0;
+		height: 100%;
 	}
 
 	main {
@@ -93,6 +94,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 20px;
+		height: 100%;
 	}
 
 	.logo {
