@@ -42,25 +42,36 @@
 			</div>
 		{/each}
 	</ul>
+
+	<br />
+	<br />
+	<table class="legend">
+		<th>Legend</th>
+		<tr>
+			<p class="notification read">Read notifications</p>
+		</tr>
+		<tr>
+			<p class="notification unread">Unread notifications</p>
+		</tr>
+	</table>
 </body>
-<br />
-<br />
-<table>
-	<tr>
-		<p class="notification read legend">Read notifications</p>
-	</tr>
-	<tr>
-		<p class="notification unread legend">Unread notifications</p>
-	</tr>
-</table>
 
 <style>
+	:root {
+    --unread-background-color:rgba(165, 42, 42, 0.85);
+    --read-background-color: rgba(0, 100, 0, 0.8);
+	--notification-font-color:white;
+	--notification-li-border-radius:5px;
+	--notification-li-border-padding:5px;
+	--notification-li-border-margin:2px;
+	--font-color:#3798db;
+  }
 	body {
 		margin: 0px;
 		background-color: #f0f5f9;
 	}
 	h2 {
-		color: #3798db;
+		color:  var(--font-color);
 		padding: 10px;
 		margin-top: 0px;
 		margin-left: 0px;
@@ -81,29 +92,28 @@
 		max-width: 100%;
 		list-style-type: none;
 		/* border: solid 1px black; */
-		border-radius: 5px;
-		padding: 5px;
-		margin: 2px;
+		border-radius: var(--notification-li-border-radius);
+		padding: var(--notification-li-border-padding);
+		margin: var(--notification-li-border-margin);
 	}
 	.unread {
-		color: white;
-		background-color: rgba(165, 42, 42,0.85);
+		color: var(--notification-font-color);
+		background-color: var(--unread-background-color);
 	}
 	.read {
-		color: white;
-		background-color: rgba(0, 100, 0,0.8);
-
+		color:var(--notification-font-color);
+		background-color: var(--read-background-color);
 	}
 	.legend {
-		margin-left:20px;
+		margin-left: 20px;
 		width: min-content;
 	}
 	.legend th {
-		color: #3798db;
+		color: var(--font-color);
 	}
-	.legend .notification{
-		padding: 5px;
-		margin: 2px;
-		border-radius: 5px;
+	.legend .notification {
+		border-radius: var(--notification-li-border-radius);
+		padding: var(--notification-li-border-padding);
+		margin: var(--notification-li-border-margin);
 	}
 </style>
