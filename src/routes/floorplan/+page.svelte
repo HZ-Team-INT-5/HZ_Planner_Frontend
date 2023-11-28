@@ -2,13 +2,15 @@
   let floors = [1, 2, 3, 4, 5];
   let currentPage = 1;
 
+  /**
+	 * @param {number} page
+	 */
   function goToPage(page) {
     currentPage = page;
   }
 </script>
 
 <style>
-  /* Business-level styling with blue theme */
   h1 {
     text-align: center;
     color: #0073e6;
@@ -22,13 +24,13 @@
     background-color: #f0f5ff;
     border: 1px solid #b3d9ff;
     border-radius: 8px;
-    text-align: center; /* Center content horizontally */
+    text-align: center;
   }
 
   .floor-plan {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content vertically */
+    align-items: center;
     margin-bottom: 20px;
     background-color: #e6f7ff;
     border: 1px solid #b3d9ff;
@@ -37,9 +39,9 @@
   }
 
   img {
-    width: 100%; /* Make the image fill the container */
-    max-height: 80vh; /* Limit the image height */
-    object-fit: contain; /* Preserve aspect ratio */
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
     border: 1px solid #b3d9ff;
     border-radius: 8px;
   }
