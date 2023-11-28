@@ -23,7 +23,7 @@
 <br />
 <br />
 <table>
-    <th>Legend</th>
+	<th>Legend</th>
 	<tr>
 		<p class="notification read legend">Read notifications</p>
 	</tr>
