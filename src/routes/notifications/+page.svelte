@@ -1,4 +1,4 @@
-<script lang=ts>
+<script lang="ts">
 	let notifs = [
 		{
 			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
@@ -10,19 +10,36 @@
 			status: 'unread'
 		}
 	];
-	function setAsRead(notif: { desc: string; status: any; }){
-		notif.status='read';
-		notifs=notifs;
+	function setAsRead(notif: { desc: string; status: any }) {
+		notif.status = 'read';
+		notifs = notifs;
+		return;
+	}
+	function setAsUnread(notif: { desc: string; status: any }) {
+		notif.status = 'unread';
+		notifs = notifs;
 		return;
 	}
 </script>
 
 <body>
-	<h1>Notifications Page 🔔</h1>
+	<h2>Notifications 🔔</h2>
 	<div></div>
 	<ul>
 		{#each notifs as notif}
-			<div on:click={()=>{setAsRead(notif)}} ><li class="notification {notif.status}">{notif.desc}</li></div>
+			<!-- todo: add accessibility option for people that don't use a mouse -->
+			<div class="notification-parent">
+				<div on:click={() => setAsRead(notif)} class="notification_li_div">
+					<li class="notification_li {notif.status}">{notif.desc}</li>
+				</div>
+				{#if notif.status === 'read'}
+					<div class="set_as_unread_div">
+						<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
+							>Set as unread</button
+						>
+					</div>
+				{/if}
+			</div>
 		{/each}
 	</ul>
 
@@ -41,17 +58,29 @@
 
 <style>
 	body {
-		margin:0px;
+		margin: 0px;
 		background-color: #f0f5f9;
 	}
-	h1 {
-		background-color: #3798db;
-		color: white;
+	h2 {
+		color: #3798db;
 		padding: 10px;
 		margin-top: 0px;
 		margin-left: 0px;
 	}
-	.notification {
+	.notification-parent {
+		display: flex;
+	}
+	.notification_li_div {
+		width: 80%;
+		/* backgrond color used for debugging purposes */
+		/* background-color:red; */
+	}
+	.set_as_unread_div {
+	}
+	.set_as_unread_button {
+	}
+	.notification_li {
+		max-width: 100%;
 		list-style-type: none;
 		border: solid 1px black;
 		padding: 5px;
@@ -66,11 +95,14 @@
 		background-color: darkgreen;
 	}
 	.legend {
+		margin-left:20px;
 		width: min-content;
 	}
 	.legend th {
-		/* background-color: #3798DB;
-		color:white; */
 		color: #3798db;
+	}
+	.legend .notification{
+		padding: 5px;
+		margin: 2px;
 	}
 </style>
