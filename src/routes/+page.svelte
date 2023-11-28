@@ -144,8 +144,7 @@
 
 			<section class="card">
 				<h2>Floor Plan</h2>
-				<p>To be added...</p>
-                <!-- <a class="floorplan" href="/floorplan">Floor Plan</a> -->
+                <a class="floorplan" href="/floorplan">Floor Plan</a>
 			</section>
 
 			<section class="card">
