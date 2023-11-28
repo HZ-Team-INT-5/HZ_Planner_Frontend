@@ -1,17 +1,5 @@
 <body>
-	<header>
-		<div class="navbar">
-			<h1>HZ Planner</h1>
-			<ul>
-				<li><a href="/home">Home</a></li>
-				<ul><a class="about" href="/about">About</a></ul>
-				<!-- <li><a href="/register">Register</a></li> -->
-			</ul>
-		</div>
-	</header>
-
 	<main>
-          			<!-- Logo section -->
 			<div class="logo">
 				<img src="logo.jpg" alt="HZ Planner Logo" />
 			</div>
@@ -78,14 +66,12 @@
 			</div>
 		</div>
 		<footer>
-			<!-- Footer content -->
 			<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 		</footer>
 	</main></body
 >
 
 <style>
-	/* CSS styles embedded in the <style> tag */
 	* {
 		margin: 0;
 		padding: 0;
@@ -94,49 +80,20 @@
 
 	body {
 		font-family: Arial, sans-serif;
-		background-color: #f0f5f9; /* Light background color */
+		background-color: #f0f5f9;
 		display: flex;
 		flex-direction: column;
-		min-height: 100vh; /* Make sure the body covers the entire viewport height */
+		min-height: 100vh;
 		margin: 0;
-	}
-
-	header {
-		background-color: #3498db;
-		color: #ffffff;
-		padding: 20px;
-		text-align: center;
-	}
-
-	.navbar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.navbar ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-	}
-
-	.navbar li {
-		margin-right: 20px;
-	}
-
-	.navbar a {
-		text-decoration: none;
-		color: #ffffff;
 	}
 
 	main {
 		flex: 1;
 		padding: 20px;
 		display: flex;
-		flex-wrap: wrap; /* Enable wrapping of cards */
-		justify-content: center; /* Center cards horizontally */
-		gap: 20px; /* Gap between cards */
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 20px;
 	}
 
   .logo {

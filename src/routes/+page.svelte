@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<title>HZ Planner</title>
 		<style>
-			/* CSS styles embedded in the <style> tag */
 			* {
 				margin: 0;
 				padding: 0;
@@ -13,49 +10,20 @@
 
 			body {
 				font-family: Arial, sans-serif;
-				background-color: #f0f5f9; /* Light background color */
+				background-color: #f0f5f9;
 				display: flex;
 				flex-direction: column;
-				min-height: 100vh; /* Make sure the body covers the entire viewport height */
+				min-height: 100vh;
 				margin: 0;
-			}
-
-			header {
-				background-color: #3498db;
-				color: #ffffff;
-				padding: 20px;
-				text-align: center;
-			}
-
-			.navbar {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
-
-			.navbar ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-				display: flex;
-			}
-
-			.navbar li {
-				margin-right: 20px;
-			}
-
-			.navbar a {
-				text-decoration: none;
-				color: #ffffff;
 			}
 
 			main {
 				flex: 1;
 				padding: 20px;
 				display: flex;
-				flex-wrap: wrap; /* Enable wrapping of cards */
-				justify-content: center; /* Center cards horizontally */
-				gap: 20px; /* Gap between cards */
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 20px;
 			}
 
 			.welcome-message {
@@ -68,11 +36,11 @@
 			.logo-container {
 				display: flex;
 				justify-content: center;
-				margin-bottom: 20px; /* Adjust margin as needed */
+				margin-bottom: 20px;
 			}
 
 			.logo-container img {
-				max-width: 50%; /* Ensure the logo doesn't exceed its container */
+				max-width: 50%;
 				height: auto;
 			}
 
@@ -80,7 +48,7 @@
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: center;
-				gap: 20px; /* Space between cards */
+				gap: 20px;
 			}
 
 			.card {
@@ -88,9 +56,9 @@
 				border-radius: 8px;
 				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 				padding: 20px;
-				width: calc(33.33% - 20px); /* Three cards in a row with a 20px gap */
+				width: calc(33.33% - 20px);
 				text-align: center;
-				margin-bottom: 20px; /* Space between rows */
+				margin-bottom: 20px; 
 			}
 
 			footer {
@@ -105,27 +73,14 @@
 	</head>
 
 	<body>
-		<header>
-			<div class="navbar">
-				<h1>HZ Planner</h1>
-				<ul>
-					<li><a href="/home">Home</a></li>
-					<ul><a class="about" href="/about">About</a></ul>
-					<!-- <li><a href="/register">Register</a></li> -->
-				</ul>
-			</div>
-		</header>
-
 		<main>
 			<div class="welcome-message">
 				<p>Welcome to the HZ Planner for first year ICT students at the HZ!</p>
 				<p>Explore the pages of our book below:</p>
 			</div>
-			<!-- Logo section -->
 			<div class="logo-container">
 				<img src="logo.jpg" alt="HZ Planner Logo" />
 			</div>
-			<!-- Cards section -->
             <div class="cards-section">
 			<section class="card">
 				<h2>Calendar</h2>
@@ -144,8 +99,7 @@
 
 			<section class="card">
 				<h2>Floor Plan</h2>
-				<p>To be added...</p>
-                <!-- <a class="floorplan" href="/floorplan">Floor Plan</a> -->
+                <a class="floorplan" href="/floorplan">Floor Plan</a>
 			</section>
 
 			<section class="card">
@@ -174,8 +128,6 @@
 			</section>
         </div>
 			<footer>
-				<!-- Footer content -->
 				<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 			</footer>
 		</main></body>
-</html>
