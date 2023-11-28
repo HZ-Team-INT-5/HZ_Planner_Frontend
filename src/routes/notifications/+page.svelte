@@ -82,17 +82,19 @@
 	.notification_li {
 		max-width: 100%;
 		list-style-type: none;
-		border: solid 1px black;
+		/* border: solid 1px black; */
+		border-radius: 5px;
 		padding: 5px;
 		margin: 2px;
 	}
 	.unread {
 		color: white;
-		background-color: brown;
+		background-color: rgba(165, 42, 42,0.85);
 	}
 	.read {
 		color: white;
-		background-color: darkgreen;
+		background-color: rgba(0, 100, 0,0.8);
+
 	}
 	.legend {
 		margin-left:20px;
@@ -104,5 +106,6 @@
 	.legend .notification{
 		padding: 5px;
 		margin: 2px;
+		border-radius: 5px;
 	}
 </style>
