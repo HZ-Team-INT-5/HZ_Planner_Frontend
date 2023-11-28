@@ -42,7 +42,7 @@
 			</div>
 		{/each}
 	</ul>
-
+</body>
 <br />
 <br />
 <table>
