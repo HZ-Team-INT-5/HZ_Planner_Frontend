@@ -1,14 +1,4 @@
 <body>
-	<header>
-		<div class="navbar">
-			<h1>HZ Planner</h1>
-			<ul>
-				<li><a href="/">Home</a></li>
-				<ul><a class="about" href="/about">About</a></ul>
-			</ul>
-		</div>
-	</header>
-
 	<main>
 			<div class="logo">
 				<img src="logo.jpg" alt="HZ Planner Logo" />
@@ -95,35 +85,6 @@
 		flex-direction: column;
 		min-height: 100vh;
 		margin: 0;
-	}
-
-	header {
-		background-color: #3498db;
-		color: #ffffff;
-		padding: 20px;
-		text-align: center;
-	}
-
-	.navbar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.navbar ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-	}
-
-	.navbar li {
-		margin-right: 20px;
-	}
-
-	.navbar a {
-		text-decoration: none;
-		color: #ffffff;
 	}
 
 	main {
