@@ -1,4 +1,32 @@
 <script>
+	import Popup from './Popup.svelte';
+
+	let popupVisible = false;
+	let dataForPopup = 'Hello from parent!';
+
+	function updateCourseContent(course) {
+		let course_content =
+			'<p><strong>Course Name:</strong> ' +
+			course.title +
+			'</p><br><p><strong>Start Date:</strong> ' +
+			course.startDate +
+			'</p><br><p><strong>End Date:</strong> ' +
+			course.endDate +
+			'</p><br><p><strong>Main Lecturer:</strong> ' +
+			course.mainLecturer +
+			'</p><br><p><strong>Learning Outcome:</strong> ' +
+			course.learningOutcome + 
+			'</p><br><p><strong>Important dates:</strong> ' +
+			course.importantDates;
+
+		dataForPopup = course_content;
+	}
+
+	function openPopup(course) {
+		popupVisible = true;
+		updateCourseContent(course);
+	}
+
 	let courses = [
 		{
 			id: 1,
@@ -6,7 +34,8 @@
 			startDate: '2023-08-15',
 			endDate: '2023-09-28',
 			mainLecturer: 'Person 1',
-			learningOutcome: 'Understand the basics of Computers.'
+			learningOutcome: 'Understand the basics of Computers.',
+			importantDates:'13 Nov - 17 Nov'
 		},
 		{
 			id: 2,
@@ -74,15 +103,13 @@
 </script>
 
 <main>
+	<Popup bind:show={popupVisible} popupData={dataForPopup} />
+
 	<div class="course-grid">
 		{#each displayedCourses as course (course.id)}
-			<div class="course-card">
+			<button class="course-card" on:click={openPopup(course)}>
 				<h2>{course.title}</h2>
-				<p><strong>Start Date:</strong> {course.startDate}</p>
-				<p><strong>End Date:</strong> {course.endDate}</p>
-				<p><strong>Main Lecturer:</strong> {course.mainLecturer}</p>
-				<p><strong>Learning Outcome:</strong> {course.learningOutcome}</p>
-			</div>
+			</button>
 		{/each}
 	</div>
 
@@ -109,7 +136,7 @@
 	}
 
 	.course-card {
-		background-color: #f4f4f4;
+		/* background-color: #f4f4f4; */
 		border: 1px solid #ddd;
 		padding: 15px;
 		width: calc(33.33% - 20px);
