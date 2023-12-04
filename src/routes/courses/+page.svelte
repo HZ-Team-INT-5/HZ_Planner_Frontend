@@ -136,7 +136,8 @@
 	}
 
 	.course-card {
-		/* background-color: #f4f4f4; */
+		background-color: #f4f4f4;
+		color:black;
 		border: 1px solid #ddd;
 		padding: 15px;
 		width: calc(33.33% - 20px);
