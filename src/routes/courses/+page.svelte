@@ -5,21 +5,53 @@
 	let dataForPopup = 'Hello from parent!';
 
 	function updateCourseContent(course) {
-		let course_content =
-			'<p><strong>Course Name:</strong> ' +
-			course.title +
-			'</p><br><p><strong>Start Date:</strong> ' +
-			course.startDate +
-			'</p><br><p><strong>End Date:</strong> ' +
-			course.endDate +
-			'</p><br><p><strong>Main Lecturer:</strong> ' +
-			course.mainLecturer +
-			'</p><br><p><strong>Learning Outcome:</strong> ' +
-			course.learningOutcome + 
-			'</p><br><p><strong>Important dates:</strong> ' +
-			course.importantDates;
+		let course_content = '';
+
+		Object.keys(course).forEach((key) => {
+			//skips id key
+			if (key !== 'id') {
+				//style key to put space between words and capitalize the first letter
+				const styled_key = styleKey(key);
+				course_content += `<p><strong>${styled_key}</strong>: ${course[key]}</p><br>`;
+			}
+		});
 
 		dataForPopup = course_content;
+	}
+
+	/**
+	 * @param {string} key
+	 */
+	function styleKey(key) {
+		//sets "title" category name to "Course Name"
+		if (key === 'title') {
+			return 'Course Name';
+		}
+		key = addSpaceBeforeCapital(key);
+		key = key.charAt(0).toUpperCase() + key.slice(1); //changes the first character to upper-case
+
+		return key;
+	}
+
+	/**
+	 * @param {string} str
+	 */
+	function addSpaceBeforeCapital(str) {
+		let result = '';
+
+		for (let i = 0; i < str.length; i++) {
+			const currentChar = str.charAt(i);
+
+			if (currentChar === currentChar.toUpperCase()) {
+				// If the current character is a capital letter
+				result += ' ' + currentChar; // Add a space before the capital letter in the result
+			} else {
+				// If the current character is not a capital letter
+				result += currentChar; // Simply add the current character to the result
+			}
+		}
+
+		return result.trim(); // Trim the result to remove leading space (if any)
 	}
 
 	function openPopup(course) {
@@ -137,7 +169,7 @@
 
 	.course-card {
 		background-color: #f4f4f4;
-		color:black;
+		color: black;
 		border: 1px solid #ddd;
 		padding: 15px;
 		width: calc(33.33% - 20px);
