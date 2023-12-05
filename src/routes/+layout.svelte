@@ -11,7 +11,19 @@
 </header>
 
 <slot />
+<script>
+	import { onMount } from 'svelte';
+import { fetchCalendarData } from './db';
 
+onMount(async () => {
+  try {
+    await fetchCalendarData();
+    // Do other things after fetching data if needed
+  } catch (error) {
+    // Handle errors
+  }
+});
+</script>
 <style>
 	* {
 		margin: 0;
