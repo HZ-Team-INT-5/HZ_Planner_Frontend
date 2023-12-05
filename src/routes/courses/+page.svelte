@@ -33,9 +33,9 @@
 			title: 'Computer Science Basics (CSB)',
 			startDate: '2023-08-15',
 			endDate: '2023-09-28',
-			mainLecturer: 'Person 1',
-			learningOutcome: 'Understand the basics of Computers.',
-			importantDates:'13 Nov - 17 Nov'
+			mainLecturer: 'Loek van der Linde Dutch Lecturer (Wednesdays)Available on Teams loek.linde@hz.nl <br> Gijs van den Abeele Dutch Lecturer (Mondays) Available on Teams <br> Remco Kok Dutch Lecturer (Mondays) Available on Teams <br> Frans Blauw English Lecturer Available on Teams frans.blauw@hz.nl',
+			learningOutcome: 'Computer science is the science that describes how a computer operates. As a future IT professional this knowledge is of pivotal importance. For this reason you will study the history and foundations of computer science and how it can be applied practically in your own software.During the upcoming six weeks, you will learn the ins and outs of a computer, from hardware level through to how your operating system works and what actaully happens when you run your own code. All lessons are accompanied by activities to further strengthen your understanding. The knowledge you gain in this course will be relevant to all of your other courses during your career as an IT-professional..',
+			importantDates:'The assessment for this course will take place at the end of the block during the exam weeks, on 3 November 2023 from 09:00. The format of the assessment is a written theoretical exam.<br> The second opportunity for the assessment will take place on 1 December 2023 from 09:00.'
 		},
 		{
 			id: 2,
