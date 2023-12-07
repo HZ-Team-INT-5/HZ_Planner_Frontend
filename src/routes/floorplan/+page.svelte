@@ -1,31 +1,29 @@
 <script>
-	let floors = [1, 2, 3, 4, 5];
-	let currentPage = 1;
-
+	let floors = [0, 1, 2, 3, 4];
+	let currentPage = 0; // Adjusted starting page to 0
+  
 	/**
 	 * @param {number} page
 	 */
 	function goToPage(page) {
-		currentPage = page;
+	  // Adjusted logic to prevent going below floor 0 and above floor 4
+	  currentPage = Math.max(0, Math.min(page, floors.length - 1));
 	}
-</script>
-
-<div class="container">
+  </script>
+  
+  <div class="container">
 	<h1>Building Floor Plans</h1>
 	<div class="floor-plan">
-		<img src={`/floor${currentPage}.jpg`} alt={`Floor ${currentPage}`} />
-		<p>Floor {currentPage}</p>
+	  <img src={`/floor${currentPage}.jpg`} alt={`Floor ${currentPage}`} />
+	  <p>Floor {currentPage}</p>
 	</div>
-
+  
 	<div class="pagination">
-		<button on:click={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button
-		>
-		<p class="current-page">Page {currentPage}</p>
-		<button on:click={() => goToPage(currentPage + 1)} disabled={currentPage === floors.length}
-			>Next</button
-		>
+	  <button on:click={() => goToPage(currentPage - 1)} disabled={currentPage === 0}>Previous</button>
+	  <p class="current-page">Page {currentPage}</p>
+	  <button on:click={() => goToPage(currentPage + 1)} disabled={currentPage === floors.length - 1}>Next</button>
 	</div>
-</div>
+  </div>
 
 <style>
 	h1 {

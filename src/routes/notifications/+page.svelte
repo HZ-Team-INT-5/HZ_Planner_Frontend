@@ -22,48 +22,45 @@
 	}
 </script>
 
-<body>
-	<h2>Notifications 🔔</h2>
-	<div></div>
-	<ul>
-		{#each notifs as notif}
-			<!-- todo: add accessibility option for people that don't use a mouse -->
-			<div class="notification-parent">
-				<div on:click={() => setAsRead(notif)} class="notification_li_div">
-					<li class="notification_li {notif.status}">{notif.desc}</li>
+<h2>Notifications 🔔</h2>
+<div></div>
+<ul>
+	{#each notifs as notif}
+		<div class="notification-parent">
+			<button on:click={() => setAsRead(notif)} class="notification_li_button">
+				<li class="notification_li {notif.status}">{notif.desc}</li>
+			</button>
+			{#if notif.status === 'read'}
+				<div class="set_as_unread_div">
+					<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
+						>Set as unread</button
+					>
 				</div>
-				{#if notif.status === 'read'}
-					<div class="set_as_unread_div">
-						<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
-							>Set as unread</button
-						>
-					</div>
-				{/if}
-			</div>
-		{/each}
-	</ul>
+			{/if}
+		</div>
+	{/each}
+</ul>
 
-	<br />
-	<br />
-	<table class="legend">
-		<th>Legend</th>
+<br />
+<br />
+<table class="legend">
+	<th>Legend</th>
 
-		<tr>
-			<td class="read-td">
-				<ul>
-					<li class="notification read">Read notifications</li>
-				</ul>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<ul>
-					<li class="notification unread">Unread notifications</li>
-				</ul>
-			</td>
-		</tr>
-	</table>
-</body>
+	<tr>
+		<td class="read-td">
+			<ul>
+				<li class="notification read">Read notifications</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<ul>
+				<li class="notification unread">Unread notifications</li>
+			</ul>
+		</td>
+	</tr>
+</table>
 
 <style>
 	:root {
@@ -81,12 +78,9 @@
 		--unread-notification-font-color: black;
 		--read-notification-font-color: black;
 		/* Legend Table */
-		--legend-table-border:1px solid black;
+		--legend-table-border: 1px solid black;
 	}
-	body {
-		margin: 0px;
-		background-color: var(--page-background-color);
-	}
+
 	h2 {
 		color: var(--font-color);
 		padding: 10px;
@@ -96,19 +90,17 @@
 	.notification-parent {
 		display: flex;
 	}
-	.notification_li_div {
+	.notification_li_button {
 		width: 80%;
 		max-width: 800px;
-		/* backgrond color used for debugging purposes */
-		/* background-color:red; */
+		/* transparent background color and border*/
+		background-color:rgba(0, 0, 0,0);
+		border: 1px solid rgba(0, 0, 0,0);
+		text-align: left;
 	}
-	.set_as_unread_div {
-	}
-	.set_as_unread_button {
-	}
+	
 	.notification_li {
 		max-width: 100%;
-		/* border: solid 1px black; */
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
@@ -134,17 +126,12 @@
 		color: var(--font-color);
 		border-bottom: var(--legend-table-border);
 	}
-	.legend .read-td{
+	.legend .read-td {
 		border-bottom: var(--legend-table-border);
 	}
 	.legend .notification {
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
-	}
-	.ul .legend {
-		border: 0px;
-		margin: 0px;
-		padding: 0px;
 	}
 </style>
