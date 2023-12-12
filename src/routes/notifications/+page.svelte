@@ -4,7 +4,9 @@
 	let notifs = [
 		{
 			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
+			status: 'unread',
+			// time:'2 minutes ago'
+			//database stores the creation time
 		},
 		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
 		{
@@ -196,7 +198,7 @@
 		{ desc: 'Explore the new library resources available for your course', status: 'read' },
 		{
 			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'uread'
+			status: 'read'
 		},
 		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
 		{ desc: 'Reminder: Return library books by the due date', status: 'read' }
@@ -239,6 +241,7 @@
 <main>
 	<h2>Notifications 🔔</h2>
 
+	<!-- Choice for items per page -->
 	<label for="choiceBox">Number of items per page:</label>
 	<select
 		id="choiceBox"
@@ -253,11 +256,14 @@
 	</select>
 	<br /><br />
 
+	<!-- Notifications -->
 	<ul>
 		{#each displayedNotifs as notif}
 			<div class="notification-parent">
 				<button on:click={() => setAsRead(notif)} class="notification_li_button">
-					<li class="notification_li {notif.status}">{notif.desc}</li>
+					<li class="notification_li {notif.status}">{notif.desc}
+					<br/><br/><span class="notif-time">2 minutes ago</span>
+					</li>
 				</button>
 				{#if notif.status === 'read'}
 					<div class="set_as_unread_div">
@@ -270,9 +276,10 @@
 		{/each}
 	</ul>
 
+	<!-- Pagination -->
 	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
 	<button
-		class:bold={currentPage === 1}
+		class:current-page={currentPage === 1}
 		on:click={() => {
 			goToPage(1);
 		}}>1</button
@@ -282,7 +289,7 @@
 	{/if}
 
 	{#if currentPage != 1 && currentPage != totalPages}
-		<button><strong>{currentPage}</strong></button>
+		<button class="current-page">{currentPage}</button>
 	{/if}
 
 	{#if totalPages - currentPage > 1}
@@ -291,7 +298,7 @@
 
 	{#if totalPages != 1}
 		<button
-			class:bold={currentPage === totalPages}
+			class:current-page={currentPage === totalPages}
 			on:click={() => {
 				goToPage(totalPages);
 			}}>{totalPages}</button
@@ -301,15 +308,9 @@
 	<br />
 	<br />
 
-	<label for="pageInput">Go to page:</label>
-
-	<input type="number" id="pageInput" bind:value={currentPage} min="1" max={totalPages} />
-
-	<button on:click={goToPage}>Go</button>
-	<br />
-	<br />
 	<br />
 
+	<!-- Legend Table -->
 	<table class="legend">
 		<th>Legend</th>
 
@@ -339,7 +340,7 @@
 		--notification-li-border-radius: 5px;
 		--notification-li-border-padding: 5px;
 		--notification-li-border-margin: 2px;
-		--unread-list-style-type: 'o';
+		--unread-list-style-type: '●';
 		/* Notification colors */
 		--unread-background-color: rgba(0, 166, 255, 0.85);
 		--read-background-color: rgba(231, 230, 230, 0.868);
@@ -351,6 +352,7 @@
 
 	main {
 		background-color: var(--page-background-color);
+		font-family: Arial, sans-serif;
 	}
 
 	h2 {
@@ -359,8 +361,9 @@
 		margin-top: 0px;
 		margin-left: 0px;
 	}
-	.bold {
+	.current-page {
 		font-weight: bold;
+		text-decoration:underline;
 	}
 	.notification-parent {
 		display: flex;
@@ -379,6 +382,7 @@
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
+		height:3.5em;
 		list-style-type: none;
 	}
 	.unread {
@@ -398,6 +402,17 @@
 		color: var(--read-notification-font-color);
 		background-color: var(--read-background-color);
 	}
+	.notif-time{
+		font-size:smaller;
+		font-weight:normal;
+	}
+	.unread .notif-time{
+		color:rgb(228, 228, 228);
+		
+	}
+	.read .notif-time{
+		color:gray;
+	}
 	.legend {
 		margin-left: 20px;
 		width: max-content;
@@ -411,6 +426,7 @@
 		border-bottom: var(--legend-table-border);
 	}
 	.legend .notification {
+		font-size: small;
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
