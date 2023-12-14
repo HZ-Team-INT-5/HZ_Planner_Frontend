@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 	import { Calendar } from '@fullcalendar/core';
 	import dayGridPlugin from '@fullcalendar/daygrid';
-  
+
+  // This page uses a module called fullcalendar. If it doesn't display the marked days run: npm install fullcalendar  
+
 	onMount(() => {
   const calendarEl = document.getElementById('calendar');
 
@@ -10,7 +12,7 @@
     fetch('http://localhost:3000/get-events')
       .then(response => response.json())
       .then(events => {
-        console.log(events); // Log events to the console
+        console.log(events);
         const calendar = new Calendar(calendarEl, {
           plugins: [dayGridPlugin],
           events: events,
