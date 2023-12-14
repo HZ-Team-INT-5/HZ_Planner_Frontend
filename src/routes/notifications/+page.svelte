@@ -347,7 +347,7 @@
 		--unread-notification-font-color: white;
 		--read-notification-font-color: black;
 		/* Legend Table */
-		--legend-table-border:1px solid black;
+		--legend-table-border: 1px solid black;
 	}
 
 	main {
@@ -368,7 +368,7 @@
 	.notification-parent {
 		display: flex;
 	}
-	.notification_li_div {
+	.notification_li_button {
 		width: 80%;
 		max-width: 800px;
 		/* transparent background color and border*/
@@ -379,7 +379,6 @@
 
 	.notification_li {
 		max-width: 100%;
-		/* border: solid 1px black; */
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
@@ -423,7 +422,7 @@
 		color: var(--font-color);
 		border-bottom: var(--legend-table-border);
 	}
-	.legend .read-td{
+	.legend .read-td {
 		border-bottom: var(--legend-table-border);
 	}
 	.legend .notification {
