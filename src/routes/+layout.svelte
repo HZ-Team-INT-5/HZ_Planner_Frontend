@@ -5,7 +5,7 @@
 			<li><img src="logo.jpg" alt="HZ Planner Logo"></li>
 			<li><a href="/">Home</a></li>
 			<li><a class="about" href="/about">About</a></li>
-			<li><a href="/login">Login</a></li>
+			<li><a href="/notifications">Notifications</a></li>
 		</ul>
 	</div>
 </header>
