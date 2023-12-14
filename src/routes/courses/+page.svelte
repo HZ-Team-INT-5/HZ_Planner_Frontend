@@ -1,62 +1,84 @@
 <script>
-	let courses = [
-		{
-			id: 1,
-			title: 'Computer Science Basics (CSB)',
-			startDate: '2023-08-15',
-			endDate: '2023-09-28',
-			mainLecturer: 'Person 1',
-			learningOutcome: 'Understand the basics of Computers.'
-		},
-		{
-			id: 2,
-			title: 'Object-Oriented Programming (OOP)',
-			startDate: '2023-03-12',
-			endDate: '2023-12-31',
-			mainLecturer: 'j0hn Smith',
-			learningOutcome: 'Learn Object-Oriented Programming.'
-		},
-		{
-			id: 3,
-			title: 'Framework Project (Laravel)',
-			startDate: '2023-04-9',
-			endDate: '2023-05-9',
-			mainLecturer: 'Kim Smoth',
-			learningOutcome: 'Create a project using Laravel PHP.'
-		},
-		{
-			id: 4,
-			title: 'Data Science',
-			startDate: '2023-02-2',
-			endDate: '2023-03-3',
-			mainLecturer: 'Alice Gek',
-			learningOutcome: 'Work with data to create information.'
-		},
-		{
-			id: 5,
-			title: 'Introduction to Svelte',
-			startDate: '2023-11-1',
-			endDate: '2023-12-16',
-			mainLecturer: 'Rimmert Smith',
-			learningOutcome: 'Understand the basics of Svelte.'
-		},
-		{
-			id: 6,
-			title: 'Svelte project',
-			startDate: '2023-03-19',
-			endDate: '2023-06-9',
-			mainLecturer: '1234 Smith',
-			learningOutcome: 'Create a project using Svelte.'
-		},
-		{
-			id: 7,
-			title: 'Introduction to Svelte',
-			startDate: '2023-08-8',
-			endDate: '2023-09-4',
-			mainLecturer: 'bbbb Smith',
-			learningOutcome: 'Understand the basics of Svelte.'
+	import Popup from './Popup.svelte';
+
+	let popupVisible = false;
+	let dataForPopup = 'Hello from parent!';
+
+	function updateCourseContent(course) {
+		let course_content = '';
+
+		Object.keys(course).forEach((key) => {
+			//skips id key
+			if (key !== 'id') {
+				//style key to put space between words and capitalize the first letter
+				const styled_key = styleKey(key);
+				course_content += `<p><strong>${styled_key}</strong>: ${course[key]}</p><br>`;
+			}
+		});
+
+		dataForPopup = course_content;
+	}
+
+	/**
+	 * @param {string} key
+	 */
+	function styleKey(key) {
+		//sets "title" category name to "Course Name"
+		if (key === 'title') {
+			return 'Course Name';
 		}
-	];
+		key = addSpaceBeforeCapital(key);
+		key = key.charAt(0).toUpperCase() + key.slice(1); //changes the first character to upper-case
+
+		return key;
+	}
+
+	/**
+	 * @param {string} str
+	 */
+	function addSpaceBeforeCapital(str) {
+		let result = '';
+
+		for (let i = 0; i < str.length; i++) {
+			const currentChar = str.charAt(i);
+
+			if (currentChar === currentChar.toUpperCase()) {
+				// If the current character is a capital letter
+				result += ' ' + currentChar; // Add a space before the capital letter in the result
+			} else {
+				// If the current character is not a capital letter
+				result += currentChar; // Simply add the current character to the result
+			}
+		}
+
+		return result.trim(); // Trim the result to remove leading space (if any)
+	}
+
+	function openPopup(course) {
+		popupVisible = true;
+		updateCourseContent(course);
+	}
+
+	/**
+	 * This will fetch to the API gateway
+	 */
+	import { onMount } from 'svelte';
+
+	let courses = [];
+
+	async function fetchData() {
+		try {
+			const response = await fetch('http://localhost:3000/courses');
+			const data = await response.json();
+			courses = data;
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	}
+
+	onMount(() => {
+		fetchData();
+	});
 
 	let currentPage = 1;
 	const pageSize = 6;

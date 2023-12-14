@@ -1,8 +1,5 @@
 <body>
 	<main>
-		<div class="logo">
-			<img src="logo.jpg" alt="HZ Planner Logo" />
-		</div>
 		<div class="card-section">
 			<div class="card top-card">
 				<h1>HZ Planner: Your Ultimate First-Year Survival Guide</h1>
@@ -87,11 +84,6 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 20px;
-	}
-
-	.logo {
-		width: 25%;
-		height: 25%;
 	}
 
 	.card-section {
