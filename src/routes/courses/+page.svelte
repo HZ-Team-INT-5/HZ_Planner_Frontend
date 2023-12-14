@@ -96,15 +96,13 @@
 </script>
 
 <main>
+	<Popup bind:show={popupVisible} popupData={dataForPopup} />
+
 	<div class="course-grid">
 		{#each displayedCourses as course (course.id)}
-			<div class="course-card">
+			<button class="course-card" on:click={openPopup(course)}>
 				<h2>{course.title}</h2>
-				<p><strong>Start Date:</strong> {course.startDate}</p>
-				<p><strong>End Date:</strong> {course.endDate}</p>
-				<p><strong>Main Lecturer:</strong> {course.mainLecturer}</p>
-				<p><strong>Learning Outcome:</strong> {course.learningOutcome}</p>
-			</div>
+			</button>
 		{/each}
 	</div>
 
@@ -132,6 +130,7 @@
 
 	.course-card {
 		background-color: #f4f4f4;
+		color: black;
 		border: 1px solid #ddd;
 		padding: 15px;
 		width: calc(33.33% - 20px);
