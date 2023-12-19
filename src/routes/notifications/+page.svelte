@@ -1,12 +1,36 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
+	import Popup from './Popup.svelte';
+
+	let popupVisible = false;
+	let dataForPopup = 'Hello from parent!';
+
+	function updateNotifContent(notif) {
+		let notif_content = '';
+
+		Object.keys(notif).forEach((key) => {
+			//style key to put space between words and capitalize the first letter
+			// const styled_key = styleKey(key);
+			notif_content += `<p><strong>${key}</strong>: ${notif[key]}</p><br>`;
+		});
+
+		dataForPopup = notif_content;
+	}
+
+	function openPopup(notif) {
+		popupVisible = true;
+		updateNotifContent(notif);
+		setAsRead(notif);
+	}
 
 	let notifs = [
 		{
 			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
 			status: 'unread',
+			creationTime: '12/12/2023',
+			timeElapsed: '2 minutes ago'
 			// time:'2 minutes ago'
-			//database stores the creation time
+			// database stores the creation time
 		},
 		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
 		{
@@ -203,12 +227,12 @@
 		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
 		{ desc: 'Reminder: Return library books by the due date', status: 'read' }
 	];
-	function setAsRead(notif: { desc: string; status: any }) {
+	function setAsRead(notif) {
 		notif.status = 'read';
 		notifs = notifs;
 		return;
 	}
-	function setAsUnread(notif: { desc: string; status: any }) {
+	function setAsUnread(notif) {
 		notif.status = 'unread';
 		notifs = notifs;
 		return;
@@ -239,6 +263,8 @@
 </script>
 
 <main>
+	<Popup bind:show={popupVisible} popupData={dataForPopup} />
+
 	<h2>Notifications 🔔</h2>
 
 	<!-- Choice for items per page -->
@@ -260,9 +286,11 @@
 	<ul>
 		{#each displayedNotifs as notif}
 			<div class="notification-parent">
-				<button on:click={() => setAsRead(notif)} class="notification_li_button">
-					<li class="notification_li {notif.status}">{notif.desc}
-					<br/><br/><span class="notif-time">2 minutes ago</span>
+				<button on:click={() => openPopup(notif)} class="notification_li_button">
+					<li class="notification_li {notif.status}">
+						{notif.desc}
+						<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
+						<br /><br /><span class="notif-time">{notif.timeElapsed}</span>
 					</li>
 				</button>
 				{#if notif.status === 'read'}
@@ -363,7 +391,7 @@
 	}
 	.current-page {
 		font-weight: bold;
-		text-decoration:underline;
+		text-decoration: underline;
 	}
 	.notification-parent {
 		display: flex;
@@ -382,7 +410,7 @@
 		border-radius: var(--notification-li-border-radius);
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
-		height:3.5em;
+		height: 3.5em;
 		list-style-type: none;
 	}
 	.unread {
@@ -402,16 +430,15 @@
 		color: var(--read-notification-font-color);
 		background-color: var(--read-background-color);
 	}
-	.notif-time{
-		font-size:smaller;
-		font-weight:normal;
+	.notif-time {
+		font-size: smaller;
+		font-weight: normal;
 	}
-	.unread .notif-time{
-		color:rgb(228, 228, 228);
-		
+	.unread .notif-time {
+		color: rgb(228, 228, 228);
 	}
-	.read .notif-time{
-		color:gray;
+	.read .notif-time {
+		color: gray;
 	}
 	.legend {
 		margin-left: 20px;
