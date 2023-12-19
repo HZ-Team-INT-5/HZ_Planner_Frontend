@@ -27,15 +27,3 @@ export async function fetchCalendarData() {
 	  throw error;
 	}
   }
-
-supabase.auth.getSession().then(({ data }) => {
-	userStore.set(data.session?.user);
-});
-
-supabase.auth.onAuthStateChange((event, session) => {
-	if (event == 'SIGNED_IN' && session) {
-		userStore.set(session.user);
-	} else if (event == 'SIGNED_OUT') {
-		userStore.set(null);
-	}
-});

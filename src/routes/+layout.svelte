@@ -1,8 +1,30 @@
+<script lang="ts">
+	import { invalidate } from '$app/navigation'
+	import { onMount } from 'svelte'
+  
+	export let data
+  
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
+  
+	onMount(() => {
+	  const {
+		data: { subscription },
+	  } = supabase.auth.onAuthStateChange((event, _session) => {
+		if (_session?.expires_at !== session?.expires_at) {
+		  invalidate('supabase:auth')
+		}
+	  })
+  
+	  return () => subscription.unsubscribe()
+	});
+  </script>
+
 <header>
 	<div class="navbar">
 		<h1><a href="/">HZ Planner</a></h1>
 		<ul>
-			<li><img src="logo.jpg" alt="HZ Planner Logo"></li>
+			<li><img src="logo.jpg" alt="HZ Planner Logo" /></li>
 			<li><a href="/">Home</a></li>
 			<li><a class="about" href="/about">About</a></li>
 			<li><a href="/notifications">Notifications</a></li>
@@ -11,19 +33,7 @@
 </header>
 
 <slot />
-<script>
-	import { onMount } from 'svelte';
-import { fetchCalendarData } from './db';
 
-onMount(async () => {
-  try {
-    await fetchCalendarData();
-    // Do other things after fetching data if needed
-  } catch (error) {
-    // Handle errors
-  }
-});
-</script>
 <style>
 	* {
 		margin: 0;
