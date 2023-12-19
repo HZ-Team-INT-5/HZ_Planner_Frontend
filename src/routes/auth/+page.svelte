@@ -8,14 +8,19 @@
     let password
   
     const handleSignUp = async () => {
-      await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
-        },
-      })
-    }
+  try {
+    await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+  } catch (error) {
+    console.error('Error during signup:', error);
+    // Handle the error or log it as needed
+  }
+};
   
     const handleSignIn = async () => {
       await supabase.auth.signInWithPassword({
@@ -30,8 +35,8 @@
   </script>
   
   <form on:submit="{handleSignUp}">
-    <input name="email" bind:value="{email}" />
-    <input type="password" name="password" bind:value="{password}" />
+    <input name="email" bind:value="{email}"/>
+    <input type="password" name="password" bind:value="{password}"/>
     <button>Sign up</button>
   </form>
   

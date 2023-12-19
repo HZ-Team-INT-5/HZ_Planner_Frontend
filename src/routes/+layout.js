@@ -1,7 +1,6 @@
 import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit'
 
-// @ts-expect-error any
 export const load = async ({ fetch, data, depends }) => {
   depends('supabase:auth')
 
