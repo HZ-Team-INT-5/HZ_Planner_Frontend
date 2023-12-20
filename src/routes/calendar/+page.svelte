@@ -1,10 +1,14 @@
 <script>
   import { onMount } from 'svelte';
   import { Calendar } from '@fullcalendar/core';
-  import interactionPlugin from '@fullcalendar/interaction'; // for selectable
+  import interactionPlugin from '@fullcalendar/interaction';
   import dayGridPlugin from '@fullcalendar/daygrid';
 
   let calendar;
+  let formData = {
+    title: '',
+    date: ''
+  };
 
   onMount(() => {
     const calendarEl = document.getElementById('calendar');
@@ -39,17 +43,39 @@
     const formContainer = document.getElementById('eventFormContainer');
     formContainer.style.display = 'block';
     document.getElementById('eventDate').innerText = date;
+    formData.date = date;
+  }
+
+  async function addEventToBackend(title, startdate) {
+    try {
+      const response = await fetch('http://localhost:3000/get-events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, startdate })
+      });
+
+      if (response.ok) {
+        console.log('Event added successfully to backend');
+      } else {
+        console.error('Failed to add event to backend');
+      }
+    } catch (error) {
+      console.error('Error adding event to backend:', error);
+    }
   }
 
   function addEvent() {
-    const date = document.getElementById('eventDate').innerText;
     const title = document.getElementById('eventTitle').value;
+    const startdate = formData.date;
 
     calendar.addEvent({
       title,
-      start: date
+      start: startdate
     });
 
+    addEventToBackend(title, startdate);
     closeEventForm();
   }
 
@@ -90,17 +116,17 @@
   }
 </style>
 
-<div class="calendar-container">
-  <div id="calendar"></div>
-</div>
+<div style="display: flex;">
+  <div id="calendar" style="flex: 1;"></div>
 
-<div class="event-form" id="eventFormContainer">
-  <h3>Add Event</h3>
-  <p>Date: <span id="eventDate"></span></p>
-  <div class="form-field">
-    <label for="eventTitle">Title:</label>
-    <input type="text" id="eventTitle" />
+  <div class="event-form" id="eventFormContainer" style="display: none;">
+    <h3>Add Event</h3>
+    <p>Date: <span id="eventDate"></span></p>
+    <div class="form-field">
+      <label for="eventTitle">Title:</label>
+      <input type="text" id="eventTitle" />
+    </div>
+    <button on:click={addEvent}>Add Event</button>
+    <button on:click={closeEventForm}>Cancel</button>
   </div>
-  <button on:click={addEvent}>Add Event</button>
-  <button on:click={closeEventForm}>Cancel</button>
 </div>
