@@ -6,13 +6,13 @@
 	let dataForPopup = 'Hello from parent!';
 
 	function updateNotifContent(notif) {
-		let notif_content = '';
-
-		Object.keys(notif).forEach((key) => {
+		let notif_content = `<center><h3><strong>Details:</h3></strong><br/><br/><p style="font-size:large">`;
+		notif_content+= notif.desc + `</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${notif.creationTime}</p>`;
+		/*Object.keys(notif).forEach((key) => {
 			//style key to put space between words and capitalize the first letter
 			// const styled_key = styleKey(key);
 			notif_content += `<p><strong>${key}</strong>: ${notif[key]}</p><br>`;
-		});
+		});*/
 
 		dataForPopup = notif_content;
 	}

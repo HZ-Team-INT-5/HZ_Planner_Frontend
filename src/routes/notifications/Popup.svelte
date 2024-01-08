@@ -1,16 +1,29 @@
 <script lang="ts">
 	export let show: boolean = false;
-    export let popupData: string; 
+	export let popupData: string;
 
 	function closePopup() {
 		show = false;
 	}
+	// const close = () => (show = false);
+
+	const handle_keydown = (e) => {
+		if (e.key === 'Escape') return closePopup();
+	};
 </script>
 
-<div class="popup" style={show ? 'display: block;' : 'display: none;'}>
+<svelte:window on:keydown={handle_keydown} on:click|self|preventDefault={closePopup} />
+
+<div
+	class="popup"
+	on:click|self|preventDefault={closePopup}
+	style={show ? 'display: block;' : 'display: none;'}
+>
 	<div class="popup-content">
-		<span class="close" on:click={closePopup}>&times;</span>
-        <p>{@html popupData}</p>
+		<span role="button" on:keydown={handle_keydown} class="close-button" on:click={closePopup}
+			>&times;</span
+		>
+		<p>{@html popupData}</p>
 	</div>
 </div>
 
@@ -29,11 +42,11 @@
 	}
 
 	.popup-content {
-        top: 10%;
+		top: 10%;
 		left: auto;
-        width: 70%;
-        margin:auto auto;
-        justify-content: center;
+		width: 70%;
+		margin: auto auto;
+		justify-content: center;
 		align-items: center;
 		background: #fff;
 		padding: 20px;
@@ -41,7 +54,7 @@
 		position: relative;
 	}
 
-	.close {
+	.close-button {
 		position: absolute;
 		top: 10px;
 		right: 10px;
