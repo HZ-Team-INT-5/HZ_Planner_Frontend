@@ -37,13 +37,17 @@ async function fetchData() {
 }
 
 async function putData(notif){
+	let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
+	delete notifForSupabase.creationTime;
+	delete notifForSupabase.timeElapsed;
+
 	try {
     const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: notif,
+      body: JSON.stringify(notifForSupabase),
     });
 	
     const result = await response.json();
@@ -261,7 +265,6 @@ onMount(() => {
 	];*/
 
 	function setAsRead(notif) {
-		//todo: set as read in database as well
 		notif.status = 'READ';
 		putData(notif);
 		notifs = notifs;
