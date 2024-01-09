@@ -7,7 +7,9 @@
 
 	function updateNotifContent(notif) {
 		let notif_content = `<center><h3><strong>Details:</h3></strong><br/><br/><p style="font-size:large">`;
-		notif_content+= notif.desc + `</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${notif.creationTime}</p>`;
+		notif_content +=
+			notif.desc +
+			`</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${notif.creationTime}</p>`;
 		/*Object.keys(notif).forEach((key) => {
 			//style key to put space between words and capitalize the first letter
 			// const styled_key = styleKey(key);
@@ -24,17 +26,37 @@
 	}
 	import { onMount } from 'svelte';
 
-let notifs = [];
+	let notifs = [];
 
-async function fetchData() {
-	try {
-		const response = await fetch('http://localhost:3000/notifications/1'); // notifications/1 is the user id which will later be determined by the session
-		const data = await response.json();
-		notifs = data;
-	} catch (error) {
-		console.error('Error fetching data:', error);
+	async function fetchData() {
+		try {
+			const response = await fetch('http://localhost:3000/notifications/1'); // notifications/1 is the user id which will later be determined by the session
+			const data = await response.json();
+			notifs = data;
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
 	}
-}
+
+	async function postData(notif) {
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(notif)
+			});
+			const result = await response.json();
+			console.log('Success:', result);
+		} catch (error) {
+			console.error('Error posting data:', error);
+		}
+	}
+	let dataToPost = [
+		{"desc":"The exam schedule has been published.","user_id":1},
+		{"desc":"The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!","user_id":1}
+	]
 
 async function putData(notif){
 	let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
@@ -342,6 +364,7 @@ onMount(() => {
 			</div>
 		{/each}
 	</ul>
+	
 
 	<!-- Pagination -->
 	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
@@ -375,6 +398,7 @@ onMount(() => {
 	<br />
 	<br />
 
+	<button on:click={postData(dataToPost)}>Post Data</button>
 	<br />
 
 	<!-- Legend Table -->
