@@ -14,7 +14,7 @@
       console.log('Login successful!', response.data);
 
       // Redirect to a protected page after successful login
-      navigate('/'); // Replace '/dashboard' with your desired route
+      navigate('/calendar');
     } catch (error) {
       console.error('Login failed', error);
     }
