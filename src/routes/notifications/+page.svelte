@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Popup from './Popup.svelte';
+	import {showConfirmation} from './ConfirmationDialog.svelte';
 
 	let popupVisible = false;
 	let dataForPopup = 'Hello from parent!';
@@ -24,6 +25,13 @@
 		updateNotifContent(notif);
 		setAsRead(notif);
 	}
+	function handleDelete() {
+		showConfirmation('Are you sure you want to delete?', () => {
+			deleteData(notif);
+			console.log('Deleted!');
+		});
+	}
+
 	import { onMount } from 'svelte';
 
 	let notifs = [];
@@ -54,33 +62,50 @@
 		}
 	}
 	let dataToPost = [
-		{"desc":"The exam schedule has been published.","user_id":1},
-		{"desc":"The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!","user_id":1}
-	]
+		{ desc: 'The exam schedule has been published.', user_id: 1 },
+		{
+			desc: 'The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!',
+			user_id: 1
+		}
+	];
 
-async function putData(notif){
-	let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
-	delete notifForSupabase.creationTime;
-	delete notifForSupabase.timeElapsed;
+	async function deleteData(notif) {
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+				method: 'DELETE'
+			});
 
-	try {
-    const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(notifForSupabase),
-    });
-	
-    const result = await response.json();
-    //console.log("Success:", result);
-  } catch (error) {
-    console.error("Error posting data:", error);
-  }
-}
-onMount(() => {
-	fetchData();
-});
+			const result = await response.json();
+			console.log('Success:', result);
+			fetchData();
+		} catch (error) {
+			console.error('Error deleting data:', error);
+		}
+	}
+
+	async function putData(notif) {
+		let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
+		delete notifForSupabase.creationTime;
+		delete notifForSupabase.timeElapsed;
+
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(notifForSupabase)
+			});
+
+			const result = await response.json();
+			//console.log("Success:", result);
+		} catch (error) {
+			console.error('Error putting data:', error);
+		}
+	}
+	onMount(() => {
+		fetchData();
+	});
 	/*let notifs = [
 		{
 			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
@@ -361,10 +386,12 @@ onMount(() => {
 						>
 					</div>
 				{/if}
+				&nbsp;<button on:click={() => handleDelete(notif)} class="delete_button">
+					<img src="can.png" alt="delete" height="16" />
+				</button>
 			</div>
 		{/each}
 	</ul>
-	
 
 	<!-- Pagination -->
 	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
@@ -521,5 +548,8 @@ onMount(() => {
 		padding: var(--notification-li-border-padding);
 		margin: var(--notification-li-border-margin);
 		list-style-type: none;
+	}
+	.delete_button {
+		height: 21px;
 	}
 </style>
