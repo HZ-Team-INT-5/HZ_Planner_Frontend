@@ -241,6 +241,7 @@
 <main>
 	<h2>Notifications 🔔</h2>
 
+	<div style="display: flex; justified-content: center; align-items: center; flex-direction: column; gap: 5px;">
 	<!-- Choice for items per page -->
 	<label for="choiceBox">Number of items per page:</label>
 	<select
@@ -254,6 +255,7 @@
 			<option value={option}>{option}</option>
 		{/each}
 	</select>
+	<!-- DIV FOR CENTERING ELEMENTS -->
 	<br /><br />
 
 	<!-- Notifications -->
@@ -277,6 +279,7 @@
 	</ul>
 
 	<!-- Pagination -->
+	<div>
 	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
 	<button
 		class:current-page={currentPage === 1}
@@ -305,6 +308,7 @@
 		>
 	{/if}
 	<button on:click={nextPage} disabled={currentPage === totalPages}>Next</button>
+	</div>
 	<br />
 	<br />
 
@@ -329,6 +333,7 @@
 			</td>
 		</tr>
 	</table>
+	</div>
 </main>
 
 <style>
@@ -353,6 +358,7 @@
 	main {
 		background-color: var(--page-background-color);
 		font-family: Arial, sans-serif;
+		font-size: 1.5rem;
 	}
 
 	h2 {
@@ -360,14 +366,18 @@
 		padding: 10px;
 		margin-top: 0px;
 		margin-left: 0px;
+		text-align: center;
 	}
+
 	.current-page {
 		font-weight: bold;
 		text-decoration:underline;
 	}
+
 	.notification-parent {
 		display: flex;
 	}
+
 	.notification_li_button {
 		width: 80%;
 		max-width: 800px;
@@ -375,6 +385,7 @@
 		background-color: rgba(0, 0, 0, 0);
 		border: 1px solid rgba(0, 0, 0, 0);
 		text-align: left;
+		font-size: 1rem;
 	}
 
 	.notification_li {
@@ -385,11 +396,13 @@
 		height:3.5em;
 		list-style-type: none;
 	}
+
 	.unread {
 		font-weight: bold;
 		color: var(--unread-notification-font-color);
 		background-color: var(--unread-background-color);
 	}
+
 	.unread::before {
 		/* unread-list-style manually set to have the background rather than the font color */
 		content: var(--unread-list-style-type);
@@ -398,33 +411,41 @@
 		width: 2em;
 		margin-left: -2em;
 	}
+
 	.read {
 		color: var(--read-notification-font-color);
 		background-color: var(--read-background-color);
 	}
+
 	.notif-time{
 		font-size:smaller;
 		font-weight:normal;
 	}
+
 	.unread .notif-time{
 		color:rgb(228, 228, 228);
 		
 	}
+
 	.read .notif-time{
 		color:gray;
 	}
+
 	.legend {
 		margin-left: 20px;
 		width: max-content;
 		border: var(--legend-table-border);
 	}
+
 	.legend th {
 		color: var(--font-color);
 		border-bottom: var(--legend-table-border);
 	}
+
 	.legend .read-td {
 		border-bottom: var(--legend-table-border);
 	}
+
 	.legend .notification {
 		font-size: small;
 		border-radius: var(--notification-li-border-radius);

@@ -16,8 +16,8 @@
         const calendar = new Calendar(calendarEl, {
           plugins: [dayGridPlugin],
           events: events,
-          eventColor: 'yellow',
-          eventTextColor: 'red',
+          eventColor: '#E4F6F8',
+          eventTextColor: '#0074B7',
           eventSourceFailure: function () {
             alert('There was an error while fetching events!');
           }
@@ -31,14 +31,15 @@
   }
 });
 
-  </script>
+</script>
   
-  <style>
+<style>
 	#calendar {
 	  max-width: 800px;
 	  margin: 0 auto;
+    margin-top: 50px;
 	}
-  </style>
+</style>
   
-  <div id="calendar"></div>
+<div id="calendar"></div>
   
