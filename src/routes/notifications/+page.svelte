@@ -378,7 +378,7 @@
 					<li class="notification_li {notif.status}">
 						{notif.desc}
 						<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
-						<br /><br /><span class="notif-time">{notif.timeElapsed}</span>
+						<br /><span class="notif-time">{notif.timeElapsed}</span>
 					</li>
 				</button>
 				{#if notif.status === 'READ'}
