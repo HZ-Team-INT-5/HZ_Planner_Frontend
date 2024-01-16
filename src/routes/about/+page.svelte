@@ -39,10 +39,10 @@
 
 				<div class="card right-card">
 					<h2>Digital Version: Your Personalized Academic Assistant</h2>
-					<p>
+					<!-- <p>
 						Experience a new level of organization with our digital version. Linked directly to the
 						school's API, our planner becomes your personalized academic assistant:
-					</p>
+					</p>  -->
 					<br />
 					<p>
 						Real-time Notifications: Receive timely alerts via email about upcoming events,
@@ -62,11 +62,12 @@
 				</div>
 			</div>
 		</div>
-		<footer>
-			<p>&copy; 2023 HZ Planner. All rights reserved.</p>
-		</footer>
-	</main></body
->
+	</main>
+
+	<footer>
+		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
+	</footer>
+</body>
 
 <style>
 	body {
@@ -94,7 +95,6 @@
 
 	.card {
 		background-color: #ffffff;
-		border-radius: 8px;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 		padding: 20px;
 		width: calc(33.33% - 20px);
@@ -104,6 +104,7 @@
 
 	.top-card {
 		width: 100%;
+		margin-top: 50px;
 		margin-bottom: 20px;
 	}
 
@@ -111,6 +112,7 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		gap: 5px;
 	}
 
 	.left-card,
