@@ -487,6 +487,7 @@
 		display: flex;
 	}
 	.notification_li_button {
+		margin-top: -5px;
 		width: 80%;
 		max-width: 800px;
 		/* transparent background color and border*/
