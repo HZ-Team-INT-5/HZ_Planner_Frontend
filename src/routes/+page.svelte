@@ -1,53 +1,53 @@
 <script>
-  import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
-  let text = 'Pro Tip:';
-  let advice = ['If you feel burnt out, take a break.',
-	'Remember to keep your eyes safe, take breaks every 1 hour.',
-	"Don't stand still for too long, move around to keep your body warmed up.",
-
+	let text = 'Pro Tip:';
+	let advice = [
+		'If you feel burnt out, take a break.',
+		'Remember to keep your eyes safe, take breaks every 1 hour.',
+		"Don't stand still for too long, move around to keep your body warmed up."
 	];
-  let currentAdvice = '';
-  let currentIndex = 0;
-  let typingSpeed = 120;
-  let deletingSpeed = 40;
+	let currentAdvice = '';
+	let currentIndex = 0;
+	let typingSpeed = 120;
+	let deletingSpeed = 40;
 
-  onMount(() => {
-    typeText();
-  });
+	onMount(() => {
+		typeText();
+	});
 
-  function typeText() {
-    if (currentIndex < advice.length) {
-      currentAdvice = advice[currentIndex];
-      currentIndex++;
-      typeNextChar(0);
-    } else {
-      currentIndex = 0;
-      typeText();
-    }
-  }
+	function typeText() {
+		if (currentIndex < advice.length) {
+			currentAdvice = advice[currentIndex];
+			currentIndex++;
+			typeNextChar(0);
+		} else {
+			currentIndex = 0;
+			typeText();
+		}
+	}
 
-  function typeNextChar(index) {
-    if (index <= currentAdvice.length) {
-      text = 'Pro Tip: ' + currentAdvice.slice(0, index);
-      setTimeout(() => typeNextChar(index + 1), typingSpeed);
-    } else {
-      setTimeout(deleteText, 1000);
-    }
-  }
+	function typeNextChar(index) {
+		if (index <= currentAdvice.length) {
+			text = 'Pro Tip: ' + currentAdvice.slice(0, index);
+			setTimeout(() => typeNextChar(index + 1), typingSpeed);
+		} else {
+			setTimeout(deleteText, 1000);
+		}
+	}
 
-  function deleteText() {
-    deleteNextChar(currentAdvice.length);
-  }
+	function deleteText() {
+		deleteNextChar(currentAdvice.length);
+	}
 
-  function deleteNextChar(index) {
-    if (index >= 0) {
-      text = 'Pro Tip: ' + currentAdvice.slice(0, index);
-      setTimeout(() => deleteNextChar(index - 1), deletingSpeed);
-    } else {
-      setTimeout(typeText, 1000);
-    }
-  }
+	function deleteNextChar(index) {
+		if (index >= 0) {
+			text = 'Pro Tip: ' + currentAdvice.slice(0, index);
+			setTimeout(() => deleteNextChar(index - 1), deletingSpeed);
+		} else {
+			setTimeout(typeText, 1000);
+		}
+	}
 </script>
 
 <head>
@@ -118,7 +118,7 @@
 		}
 
 		.calendar {
-		  background-color: #3498db;
+			background-color: #3498db;
 			float: left;
 			width: 60%;
 			height: 1000px;
@@ -137,13 +137,36 @@
 			padding: 0.25em 0.25em;
 			position: absolute;
 			text-decoration: none;
-			color: #0074B7;
-			transition: transform 0.3s, background-color 1s ease-out;
+			color: #0074b7;
+			transition:
+				transform 0.3s,
+				background-color 1s ease-out;
+		}
+
+		#advice {
+			top: 900px;
+			font-size: 1rem;
+			font-weight: 600;
+		}
+
+		#a_calendar {
+			position: relative;
+			top: 35%;
+			left: 45%;
+			color: white;
+			border: 5px solid #7ec8e3;
+		}
+
+		#a_courses {
+			position: relative;
+			top: 35%;
+			left: 33%;
+			border: 5px solid #7ec8e3;
 		}
 
 		a:hover {
 			transform: translateY(-10px);
-			background-color: #7EC8E3;
+			background-color: #7ec8e3;
 		}
 
 		.hidden {
@@ -164,15 +187,15 @@
 
 <body>
 	<main>
-		<a class="a" style = "top:900px; font-size: 1rem; font-weight: 600;" href="/">{text}</a>
+		<a class="a" id="advice" href="/">{text}</a>
 		<div class="wrap">
-		    <div class="calendar">
-			    <a class="a" style="top: 400px; left: 450px; color: white; border: 5px solid #7EC8E3;" href="/calendar">Calendar</a>
-		    </div>
-		    <div class="courses">
-			    <a class="a" style="top: 400px; left: 1400px; border: 5px solid #7EC8E3" href="/courses">Course Overview</a>
-		    </div>
-	    </div>
+			<div class="calendar">
+				<a class="a" id="a_calendar" href="/calendar">Calendar</a>
+			</div>
+			<div class="courses">
+				<a class="a" id="a_courses" href="/courses">Course Overview</a>
+			</div>
+		</div>
 		<footer>
 			<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 		</footer>
