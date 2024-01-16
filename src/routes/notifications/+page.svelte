@@ -387,8 +387,10 @@
 							>Set as unread</button
 						>
 					</div>
+					
 				{/if}
-				&nbsp;<button on:click={() => handleDelete(notif)} class="delete_button">
+				&nbsp;
+				<button on:click={() => handleDelete(notif)} class="delete_button">
 					<img src="can.png" alt="delete" height="16" />
 				</button>
 			</div>
@@ -496,7 +498,6 @@
 	}
 
 	.notification_li_button {
-		margin-top: -5px;
 		width: 80%;
 		max-width: 800px;
 		/* transparent background color and border*/
@@ -566,6 +567,7 @@
 		list-style-type: none;
 	}
 	.delete_button {
+		margin-top: 7px;
 		height: 21px;
 	}
 </style>
