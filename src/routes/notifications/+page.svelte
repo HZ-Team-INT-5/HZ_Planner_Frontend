@@ -267,7 +267,7 @@
 
 	<h2>Notifications 🔔</h2>
 
-	<div style="display: flex; justified-content: center; align-items: center; flex-direction: column; gap: 5px;">
+	<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 5px;">
 	<!-- Choice for items per page -->
 	<label for="choiceBox">Number of items per page:</label>
 	<select
@@ -404,6 +404,7 @@
 
 	.notification-parent {
 		display: flex;
+		padding-left: 125px;
 	}
 
 	.notification_li_button {
