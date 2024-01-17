@@ -96,6 +96,40 @@
 
 			if (response.ok) {
 				console.log('Event added successfully to backend');
+				const calendarEl = document.getElementById('calendar');
+				if (calendarEl) {
+			fetch('http://localhost:3002/events')
+				.then((response) => response.json())
+				.then((events) => {
+					events = events.map((event) => ({
+						...event,
+						id: event.id
+					}));
+					calendar = new Calendar(calendarEl, {
+						plugins: [interactionPlugin, dayGridPlugin],
+						events: events,
+						selectable: true,
+						editable: true,
+						eventColor: 'yellow',
+						eventTextColor: 'red',
+						eventSourceFailure: function () {
+							alert('There was an error while fetching events!');
+						},
+						dateClick: function (info) {
+							openEventForm(info.dateStr);
+						},
+						eventClick: function (info) {
+							const eventId = info.event.id;
+							openEventForm(info.event.start, info.event.title, eventId);
+						}
+					});
+
+					calendar.render();
+				})
+				.catch((error) => {
+					console.error('Error fetching events:', error);
+				});
+		}
 			} else {
 				console.error('Failed to add event to backend');
 			}
