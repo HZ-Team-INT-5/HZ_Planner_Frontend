@@ -362,6 +362,9 @@
 		</tr>
 	</table>
 	</div>
+	<footer>
+		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
+	</footer>
 </main>
 
 <style>
@@ -482,4 +485,16 @@
 		margin: var(--notification-li-border-margin);
 		list-style-type: none;
 	}
+
+	footer {
+			font-size: 1rem;
+			background-color: #d1e2ee;
+			color: #3498db;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 5px;
+			margin-top: 5px;
+			width: 100%;
+			height: 60px;
+		}
 </style>

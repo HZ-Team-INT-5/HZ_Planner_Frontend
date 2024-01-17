@@ -39,7 +39,20 @@
 	  margin: 0 auto;
     margin-top: 50px;
 	}
+  footer {
+      position: sticky;
+			background-color: #d1e2ee;
+			color: #3498db;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 5px;
+      margin-top: 75px;
+			width: 100%;
+			height: 60px;
+		}
 </style>
   
 <div id="calendar"></div>
-  
+<footer>
+  <p>&copy; 2023 HZ Planner. All rights reserved.</p>
+</footer>

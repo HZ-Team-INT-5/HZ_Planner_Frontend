@@ -161,7 +161,7 @@
 
 	.course-grid {
 		display: flex;
-		height: 85%;
+		height: 75%;
 		flex-wrap: wrap;
 		gap: 15px;
 	}
