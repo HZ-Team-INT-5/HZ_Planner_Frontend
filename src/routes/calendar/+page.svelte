@@ -1,27 +1,44 @@
 <script>
 	import { onMount } from 'svelte';
 	import { Calendar } from '@fullcalendar/core';
+	import interactionPlugin from '@fullcalendar/interaction';
 	import dayGridPlugin from '@fullcalendar/daygrid';
 
-  // This page uses a module called fullcalendar. If it doesn't display the marked days run: npm install fullcalendar  
+	let calendar;
+	let formData = {
+		title: '',
+		start: ''
+	};
 
 	onMount(() => {
-  const calendarEl = document.getElementById('calendar');
+		const calendarEl = document.getElementById('calendar');
 
-  if (calendarEl) {
-    fetch('http://localhost:3000/get-events')
-      .then(response => response.json())
-      .then(events => {
-        console.log(events);
-        const calendar = new Calendar(calendarEl, {
-          plugins: [dayGridPlugin],
-          events: events,
-          eventColor: '#E4F6F8',
-          eventTextColor: '#0074B7',
-          eventSourceFailure: function () {
-            alert('There was an error while fetching events!');
-          }
-        });
+		if (calendarEl) {
+			fetch('http://localhost:3002/events')
+				.then((response) => response.json())
+				.then((events) => {
+					events = events.map((event) => ({
+						...event,
+						id: event.id
+					}));
+					calendar = new Calendar(calendarEl, {
+						plugins: [interactionPlugin, dayGridPlugin],
+						events: events,
+						selectable: true,
+						editable: true,
+						eventColor: 'yellow',
+						eventTextColor: 'red',
+						eventSourceFailure: function () {
+							alert('There was an error while fetching events!');
+						},
+						dateClick: function (info) {
+							openEventForm(info.dateStr);
+						},
+						eventClick: function (info) {
+							const eventId = info.event.id;
+							openEventForm(info.event.start, info.event.title, eventId);
+						}
+					});
 
 					calendar.render();
 				})
