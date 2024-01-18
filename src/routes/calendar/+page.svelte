@@ -86,10 +86,24 @@
 	}
 
 	async function postNotificationData(title, startdate) {
-		let desc = `Don't forget ${title} on  ${startdate}`;
+		const options = {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric',
+			//hour: '2-digit',
+			//minute: '2-digit',
+			//hour12: false // Use 12-hour clock
+		};
+
+
+		startdate= new Date(startdate).toLocaleDateString('en-US', options);
+		
+		let desc = `Event ${title} has been set for ${startdate}.`;
+
 		let notif = { desc: desc, user_id: '1' };
+		console.log(notif);
 		try {
-			const response = await fetch(`http://localhost:3000/notifications/`, {
+			const response = await fetch(`http://localhost:3000/notifications/1`, { // /1 is the user id
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -102,7 +116,6 @@
 			console.error('Error posting data:', error);
 		}
 	}
-
 	async function addEventToBackend(title, startdate) {
 		try {
 			const response = await fetch('http://localhost:3002/events', {
@@ -190,16 +203,39 @@
 	async function deleteEvent() {
 		const eventId = formData.id;
 
-					calendar.render();
-				})
-				.catch((error) => {
-					console.error('Error fetching events:', error);
-				});
+		try {
+			const response = await fetch(`http://localhost:3002/events/${eventId}`, {
+				method: 'DELETE'
+			});
+
+			if (response.ok) {
+				console.log('Event deleted successfully');
+				calendar.getEventById(eventId).remove();
+			} else {
+				console.error('Failed to delete event');
+			}
+		} catch (error) {
+			console.error('Error deleting event:', error);
 		}
-	});
+	}
 </script>
 
-<div id="calendar"></div>
+<div style="display: flex;">
+	<div id="calendar" style="flex: 1;"></div>
+
+	<div class="event-form" id="eventFormContainer" style="display: none;">
+		<h3><span id="eventDate"></span></h3>
+		<div class="form-field">
+			<label for="eventTitle">Description:</label>
+			<input type="text" id="eventTitle" />
+		</div>
+		<button on:click={() => addOrUpdateEvent()}>{formData.id ? 'Save' : 'Add'}</button>
+		{#if formData.id}
+			<button on:click={deleteEvent}>Delete Event</button>
+		{/if}
+		<button on:click={closeEventForm}>Cancel</button>
+	</div>
+</div>
 <footer>
 	<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 </footer>
@@ -210,6 +246,30 @@
 		max-width: 800px;
 		margin: 0 auto;
 		margin-top: 50px;
+		display: flex;
+	}
+
+	.event-form {
+		display: none;
+		position: absolute;
+		right: 20px;
+		top: 100px;
+		width: 300px;
+		padding: 20px;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		z-index: 1000;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.form-field {
+		margin-bottom: 10px;
+	}
+
+	.calendar-container {
+		position: relative;
+		flex: 1;
 	}
 	footer {
 		font-family: Arial, sans-serif;
@@ -225,6 +285,3 @@
 		height: 60px;
 	}
 </style>
-  
-<div id="calendar"></div>
-  
