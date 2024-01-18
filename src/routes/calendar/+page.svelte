@@ -96,7 +96,7 @@
 		};
 
 
-		startdate= new Date(startdate).toLocaleDateString('en-US', options);
+		startdate= new Date(startdate).toLocaleDateString('en-UK', options);
 		
 		let desc = `Event ${title} has been set for ${startdate}.`;
 

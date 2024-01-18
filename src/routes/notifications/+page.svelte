@@ -32,26 +32,25 @@
 	let popupVisible = false;
 	let dataForPopup = '';
 
-	function formatDate(dateFromDB){
+	function formatDate(dateFromDB) {
 		const options = {
 			day: 'numeric',
-			month: 'short',
+			month: 'long',
 			year: 'numeric',
 			hour: '2-digit',
 			minute: '2-digit',
 			hour12: false // Use 12-hour clock
 		};
 
-
-		return new Date(dateFromDB).toLocaleString('en-US', options);
+		return new Date(dateFromDB).toLocaleString('en-UK', options);
 	}
 
 	function updatePopupContent(notif) {
 		let creationTime = formatDate(notif.created_at);
-		let notif_content = `<center><h3><strong>Details:</h3></strong><br/><br/><p style="font-size:large">`;
+		let notif_content = `<center><h3 style="color:rgb(0, 92, 149)"><strong>Details:</h3></strong><br/>`;
 		notif_content +=
-			notif.desc +
-			`</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${creationTime}</p>`;
+			`<p style="font-size:large">${notif.desc}</p>` +
+			`<br/><p style="font-size:small"><strong>Time:</strong> ${creationTime}</p>`;
 
 		dataForPopup = notif_content;
 	}
@@ -395,16 +394,16 @@
 	}
 
 	footer {
-			font-size: 1rem;
-			background-color: #d1e2ee;
-			color: #3498db;
-			text-align: center;
-			padding-top: 20px;
-			padding-bottom: 5px;
-			margin-top: 5px;
-			width: 100%;
-			height: 60px;
-		}
+		font-size: 1rem;
+		background-color: #d1e2ee;
+		color: #3498db;
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 5px;
+		margin-top: 5px;
+		width: 100%;
+		height: 60px;
+	}
 	.delete_button {
 		margin-top: 7px;
 		height: 21px;
