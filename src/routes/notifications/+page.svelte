@@ -91,13 +91,6 @@
 			console.error('Error posting data:', error);
 		}
 	}
-	let dataToPost = [
-		{ desc: 'The exam schedule has been published.', user_id: 1 },
-		{
-			desc: 'The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!',
-			user_id: 1
-		}
-	];
 
 	async function deleteData(notif) {
 		try {
@@ -260,8 +253,6 @@
 			<button on:click={nextPage} disabled={currentPage >= totalPages}>Next</button>
 			<br />
 			<br />
-
-			<button on:click={postData(dataToPost)}>Post Data</button>
 			<br />
 
 			<!-- Legend Table -->
@@ -285,6 +276,9 @@
 			</table>
 		</div>
 	</div>
+	<footer>
+		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
+	</footer>
 </main>
 
 <style>
@@ -327,6 +321,7 @@
 
 	.notification-parent {
 		display: flex;
+		padding-left: 125px;
 	}
 
 	.notification_li_button {
@@ -398,6 +393,18 @@
 		margin: var(--notification-li-border-margin);
 		list-style-type: none;
 	}
+
+	footer {
+			font-size: 1rem;
+			background-color: #d1e2ee;
+			color: #3498db;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 5px;
+			margin-top: 5px;
+			width: 100%;
+			height: 60px;
+		}
 	.delete_button {
 		margin-top: 7px;
 		height: 21px;

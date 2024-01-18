@@ -190,13 +190,39 @@
 	async function deleteEvent() {
 		const eventId = formData.id;
 
+					calendar.render();
+				})
+				.catch((error) => {
+					console.error('Error fetching events:', error);
+				});
+		}
+	});
 </script>
-  
+
+<div id="calendar"></div>
+<footer>
+	<p>&copy; 2023 HZ Planner. All rights reserved.</p>
+</footer>
+
 <style>
 	#calendar {
-	  max-width: 800px;
-	  margin: 0 auto;
-    margin-top: 50px;
+		font-family: Arial, sans-serif;
+		max-width: 800px;
+		margin: 0 auto;
+		margin-top: 50px;
+	}
+	footer {
+		font-family: Arial, sans-serif;
+
+		position: sticky;
+		background-color: #d1e2ee;
+		color: #3498db;
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 5px;
+		margin-top: 75px;
+		width: 100%;
+		height: 60px;
 	}
 </style>
   

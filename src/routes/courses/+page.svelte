@@ -3,12 +3,19 @@
 
 	let popupVisible = false;
 	let dataForPopup = 'Hello from parent!';
+	let lang = "en";
+
+	function 	translate() {
+		if (lang == "en") lang = "nl";
+		else lang = "en";
+	}
 
 	function updateCourseContent(course) {
 		let course_content = '';
 
 		Object.keys(course).forEach((key) => {
 			//skips id key
+			// ID 1 TO 9 (INCL.) IS ENGLISH, ID 10 TO 18 IS DUTCH
 			if (key !== 'id') {
 				//style key to put space between words and capitalize the first letter
 				const styled_key = styleKey(key);
@@ -23,11 +30,28 @@
 	 * @param {string} key
 	 */
 	function styleKey(key) {
-		//sets "title" category name to "Course Name"
 		if (key === 'title') {
 			return 'Course Name';
 		}
-		key = addSpaceBeforeCapital(key);
+		if (key == 'startdate') {
+			return 'Start Date';
+		}
+		if (key == 'coursecode') {
+			return 'Course Code';
+		}
+		if (key == 'mainlecturer') {
+			return 'Main Lecturer';
+		}
+		if (key == 'learningoutcome') {
+			return 'Learning Outcome';
+		}
+		if (key == 'importantevents') {
+			return 'Important Events';
+		}
+		if (key == 'language') {
+			return 'Language'
+		}
+ 		key = addSpaceBeforeCapital(key);
 		key = key.charAt(0).toUpperCase() + key.slice(1); //changes the first character to upper-case
 
 		return key;
@@ -80,33 +104,43 @@
 		fetchData();
 	});
 
-	let currentPage = 1;
-	const pageSize = 6;
+	// let currentPage = 1;
+	// const pageSize = 9;
 
-	$: startIndex = (currentPage - 1) * pageSize;
-	$: endIndex = Math.min(startIndex + pageSize, courses.length);
-	$: displayedCourses = courses.slice(startIndex, endIndex);
+	// $: startIndex = (currentPage - 1) * pageSize;
+	// $: endIndex = Math.min(startIndex + pageSize, courses.length);
+	// $: displayedCourses = courses.slice(startIndex, endIndex);
 
-	/**
-	 * @param {number} page
-	 */
-	function goToPage(page) {
-		currentPage = page;
-	}
+	// /**
+	//  * @param {number} page
+	//  */
+	// function goToPage(page) {
+	// 	currentPage = page;
+	// }
 </script>
 
 <main>
 	<Popup bind:show={popupVisible} popupData={dataForPopup} />
 
+	<button style="margin-left: 5px;" type="button" on:click={translate}>Translate to {#if lang == "en"}Dutch{:else} English{/if}</button>
+
 	<div class="course-grid">
-		{#each displayedCourses as course (course.id)}
-			<button class="course-card" on:click={openPopup(course)}>
-				<h2>{course.title}</h2>
-			</button>
+		{#each courses as course (course.id)}
+			{#if course.language == lang}
+				<button class="course-card" on:click={openPopup(course)}>
+					<h2>{course.title}</h2>
+					<!-- <h3>{course.language}</h3> -->
+				</button>
+			<!-- {:else}
+				<button class="course-card" on:click={openPopup(course)}>
+					<h2>{course.title}</h2>
+				</button> -->
+			{/if}
+
 		{/each}
 	</div>
 
-	{#if courses.length > pageSize}
+	<!-- {#if courses.length > pageSize}
 		<div class="pagination">
 			{#each Array.from({ length: Math.ceil(courses.length / pageSize) }, (_, index) => index + 1) as page}
 				<button on:click={() => goToPage(page)} class:active={page === currentPage}>
@@ -114,54 +148,74 @@
 				</button>
 			{/each}
 		</div>
-	{/if}
+	{/if} -->
+	<footer>
+		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
+	</footer>
 </main>
 
 <style>
 	main {
-		padding: 20px;
+		height: 100vh;
 	}
 
 	.course-grid {
 		display: flex;
+		height: 75%;
 		flex-wrap: wrap;
-		gap: 20px;
+		gap: 15px;
 	}
 
 	.course-card {
 		background-color: #f4f4f4;
 		color: black;
 		border: 1px solid #ddd;
-		padding: 15px;
+		/* padding: 15px; */
 		width: calc(33.33% - 20px);
 		box-sizing: border-box;
-		margin-bottom: 20px;
+		/* margin-bottom: 20px; */
+		height: 225px;
 	}
 
 	h2 {
 		margin-bottom: 10px;
-		font-size: 1.2em;
+		font-size: 1.5em;
 	}
 
+	/* ?? */
 	p {
-		margin: 5px 0;
+		margin: 5px;
 	}
 
+/* 
 	.pagination {
 		display: flex;
 		margin-top: 20px;
-	}
+	} */
 
 	button {
 		background-color: #3498db;
 		color: white;
 		border: none;
-		padding: 5px 10px;
+		padding: 10px 15px;
 		margin-right: 5px;
 		cursor: pointer;
+		margin-left: 5px;
 	}
-
+/* 
 	button.active {
 		background-color: #2980b9;
-	}
+	} */
+
+	footer {
+			position: fixed;
+			bottom: 0;
+			background-color: #d1e2ee;
+			color: #3498db;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 5px;
+			width: 100%;
+			height: 60px;
+		}
 </style>

@@ -134,11 +134,12 @@
 	}
 
 	footer {
-		background-color: #3498db;
-		color: #ffffff;
-		text-align: center;
-		padding: 15px;
-		width: 100%;
-		height: 50px;
-	}
+			background-color: #d1e2ee;
+			color: #3498db;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 5px;
+			width: 100%;
+			height: 60px;
+		}
 </style>
