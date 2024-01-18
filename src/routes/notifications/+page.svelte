@@ -1,16 +1,57 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Popup from './Popup.svelte';
-	import {showConfirmation} from './ConfirmationDialog.svelte';
+	import ConfirmationDialog from './ConfirmationDialog.svelte';
+
+	// Confirmation Dialog Logic
+
+	let isConfirmationOpen = false;
+	let notifToDelete = null;
+
+	function openConfirmation(notif) {
+		notifToDelete = notif;
+		isConfirmationOpen = true;
+	}
+
+	function handleConfirm() {
+		// Handle confirmation logic
+		console.log('Confirmed');
+		deleteData(notifToDelete);
+		isConfirmationOpen = false;
+	}
+
+	function handleCancel() {
+		// Handle cancellation logic
+		notifToDelete = null;
+		console.log('Cancelled');
+		isConfirmationOpen = false;
+	}
+
+	// Popup Logic
 
 	let popupVisible = false;
-	let dataForPopup = 'Hello from parent!';
+	let dataForPopup = '';
 
-	function updateNotifContent(notif) {
+	function formatDate(dateFromDB){
+		const options = {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false // Use 12-hour clock
+		};
+
+
+		return new Date(dateFromDB).toLocaleString('en-US', options);
+	}
+
+	function updatePopupContent(notif) {
+		let creationTime = formatDate(notif.created_at);
 		let notif_content = `<center><h3><strong>Details:</h3></strong><br/><br/><p style="font-size:large">`;
 		notif_content +=
 			notif.desc +
-			`</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${notif.creationTime}</p>`;
+			`</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${creationTime}</p>`;
 		/*Object.keys(notif).forEach((key) => {
 			//style key to put space between words and capitalize the first letter
 			// const styled_key = styleKey(key);
@@ -22,14 +63,8 @@
 
 	function openPopup(notif) {
 		popupVisible = true;
-		updateNotifContent(notif);
+		updatePopupContent(notif);
 		setAsRead(notif);
-	}
-	function handleDelete() {
-		showConfirmation('Are you sure you want to delete?', () => {
-			deleteData(notif);
-			console.log('Deleted!');
-		});
 	}
 
 	import { onMount } from 'svelte';
@@ -85,7 +120,6 @@
 
 	async function putData(notif) {
 		let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
-		delete notifForSupabase.creationTime;
 		delete notifForSupabase.timeElapsed;
 
 		try {
@@ -349,109 +383,116 @@
 </script>
 
 <main>
+	<ConfirmationDialog
+		isOpen={isConfirmationOpen}
+		onConfirm={handleConfirm}
+		onCancel={handleCancel}
+	/>
 	<Popup bind:show={popupVisible} popupData={dataForPopup} />
 
 	<h2>Notifications 🔔</h2>
 
-	<div style="display: flex; justified-content: center; align-items: center; flex-direction: column; gap: 5px;">
-	<!-- Choice for items per page -->
-	<label for="choiceBox">Number of items per page:</label>
-	<select
-		id="choiceBox"
-		on:change={() => {
-			goToPage(1);
-		}}
-		bind:value={itemsPerPage}
+	<div
+		style="display: flex; justified-content: center; align-items: center; flex-direction: column; gap: 5px;"
 	>
-		{#each options as option (option)}
-			<option value={option}>{option}</option>
-		{/each}
-	</select>
-	<!-- DIV FOR CENTERING ELEMENTS -->
-	<br /><br />
-
-	<!-- Notifications -->
-	<ul>
-		{#each displayedNotifs as notif}
-			<div class="notification-parent">
-				<button on:click={() => openPopup(notif)} class="notification_li_button">
-					<li class="notification_li {notif.status}">
-						{notif.desc}
-						<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
-						<br /><span class="notif-time">{notif.timeElapsed}</span>
-					</li>
-				</button>
-				{#if notif.status === 'READ'}
-					<div class="set_as_unread_div">
-						<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
-							>Set as unread</button
-						>
-					</div>
-					
-				{/if}
-				&nbsp;
-				<button on:click={() => handleDelete(notif)} class="delete_button">
-					<img src="can.png" alt="delete" height="16" />
-				</button>
-			</div>
-		{/each}
-	</ul>
-
-	<!-- Pagination -->
-	<div>
-	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
-	<button
-		class:current-page={currentPage === 1}
-		on:click={() => {
-			goToPage(1);
-		}}>1</button
-	>
-	{#if currentPage - 1 > 1}
-		...
-	{/if}
-
-	{#if currentPage != 1 && currentPage != totalPages}
-		<button class="current-page">{currentPage}</button>
-	{/if}
-
-	{#if totalPages - currentPage > 1}
-		...
-	{/if}
-
-	{#if totalPages > 1}
-		<button
-			class:current-page={currentPage === totalPages}
-			on:click={() => {
-				goToPage(totalPages);
-			}}>{totalPages}</button
+		<!-- Choice for items per page -->
+		<label for="choiceBox">Number of items per page:</label>
+		<select
+			id="choiceBox"
+			on:change={() => {
+				goToPage(1);
+			}}
+			bind:value={itemsPerPage}
 		>
-	{/if}
-	<button on:click={nextPage} disabled={currentPage >= totalPages}>Next</button>
-	<br />
-	<br />
+			{#each options as option (option)}
+				<option value={option}>{option}</option>
+			{/each}
+		</select>
+		<!-- DIV FOR CENTERING ELEMENTS -->
+		<br /><br />
 
-	<button on:click={postData(dataToPost)}>Post Data</button>
-	<br />
+		<!-- Notifications -->
+		<ul>
+			{#each displayedNotifs as notif}
+				<div class="notification-parent">
+					<button on:click={() => openPopup(notif)} class="notification_li_button">
+						<li class="notification_li {notif.status}">
+							{notif.desc}
+							<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
+							<br /><span class="notif-time">{notif.timeElapsed}</span>
+						</li>
+					</button>
+					{#if notif.status === 'READ'}
+						<div class="set_as_unread_div">
+							<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
+								>Set as unread</button
+							>
+						</div>
+					{/if}
+					&nbsp;
+					<button on:click={() => openConfirmation(notif)} class="delete_button">
+						<img src="can.png" alt="delete" height="16" />
+					</button>
+				</div>
+			{/each}
+		</ul>
 
-	<!-- Legend Table -->
-	<table class="legend">
-		<th>Legend</th>
+		<!-- Pagination -->
+		<div>
+			<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
+			<button
+				class:current-page={currentPage === 1}
+				on:click={() => {
+					goToPage(1);
+				}}>1</button
+			>
+			{#if currentPage - 1 > 1}
+				...
+			{/if}
 
-		<tr>
-			<td class="read-td">
-				<ul>
-					<li class="notification read">Read notifications</li>
-				</ul>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<ul>
-					<li class="notification unread">Unread notifications</li>
-				</ul>
-			</td>
-		</tr>
-	</table>
+			{#if currentPage != 1 && currentPage != totalPages}
+				<button class="current-page">{currentPage}</button>
+			{/if}
+
+			{#if totalPages - currentPage > 1}
+				...
+			{/if}
+
+			{#if totalPages > 1}
+				<button
+					class:current-page={currentPage === totalPages}
+					on:click={() => {
+						goToPage(totalPages);
+					}}>{totalPages}</button
+				>
+			{/if}
+			<button on:click={nextPage} disabled={currentPage >= totalPages}>Next</button>
+			<br />
+			<br />
+
+			<button on:click={postData(dataToPost)}>Post Data</button>
+			<br />
+
+			<!-- Legend Table -->
+			<table class="legend">
+				<th>Legend</th>
+
+				<tr>
+					<td class="read-td">
+						<ul>
+							<li class="notification READ">Read notifications</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<ul>
+							<li class="notification UNREAD">Unread notifications</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </main>
 
@@ -532,10 +573,10 @@
 		color: var(--read-notification-font-color);
 		background-color: var(--read-background-color);
 	}
-  
-	.notif-time{
-		font-size:smaller;
-		font-weight:normal;
+
+	.notif-time {
+		font-size: smaller;
+		font-weight: normal;
 	}
 	.UNREAD .notif-time {
 		color: rgb(228, 228, 228);

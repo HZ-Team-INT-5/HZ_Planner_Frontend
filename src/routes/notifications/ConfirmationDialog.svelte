@@ -1,43 +1,29 @@
-<script context="module">
-  let isVisible = false;
-  let message = '';
-  let callback;
+<script>
+  export let isOpen;
+  export let onConfirm;
+  export let onCancel;
 
-  export function showConfirmation(msg, cb) {
-    message = msg;
-    callback = cb;
-    isVisible = true;
-    console.log(isVisible);
+  function confirm() {
+    onConfirm();
   }
 
-  function handleConfirm() {
-    callback();
-    closeConfirmation();
-  }
-
-  function handleCancel() {
-    closeConfirmation();
-  }
-
-  function closeConfirmation() {
-    isVisible = false;
-    message = '';
-    callback = null;
+  function cancel() {
+    onCancel();
   }
 </script>
 
-{#if isVisible}
-  <div class="confirmation-overlay">
-    <div class="confirmation-dialog">
-      <p>{message}</p>
-      <button on:click={handleConfirm}>Confirm</button>
-      <button on:click={handleCancel}>Cancel</button>
+{#if isOpen}
+  <div class="overlay">
+    <div class="dialog">
+      <p>Are you sure you want to delete this notification?</p>
+      <button on:click={confirm}>Yes</button>
+      <button on:click={cancel}>No</button>
     </div>
   </div>
 {/if}
 
 <style>
-  .confirmation-overlay {
+  .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -49,11 +35,10 @@
     align-items: center;
   }
 
-  .confirmation-dialog {
+  .dialog {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     text-align: center;
   }
 </style>
