@@ -91,13 +91,6 @@
 			console.error('Error posting data:', error);
 		}
 	}
-	let dataToPost = [
-		{ desc: 'The exam schedule has been published.', user_id: 1 },
-		{
-			desc: 'The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!',
-			user_id: 1
-		}
-	];
 
 	async function deleteData(notif) {
 		try {
@@ -260,8 +253,6 @@
 			<button on:click={nextPage} disabled={currentPage >= totalPages}>Next</button>
 			<br />
 			<br />
-
-			<button on:click={postData(dataToPost)}>Post Data</button>
 			<br />
 
 			<!-- Legend Table -->
