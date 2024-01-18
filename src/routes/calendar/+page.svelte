@@ -14,7 +14,7 @@
 		const calendarEl = document.getElementById('calendar');
 
 		if (calendarEl) {
-			fetch('http://localhost:3002/events')
+			fetch('http://localhost:3000/events')
 				.then((response) => response.json())
 				.then((events) => {
 					events = events.map((event) => ({
@@ -118,7 +118,7 @@
 	}
 	async function addEventToBackend(title, startdate) {
 		try {
-			const response = await fetch('http://localhost:3002/events', {
+			const response = await fetch('http://localhost:3000/events', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -130,7 +130,7 @@
 				console.log('Event added successfully to backend');
 				const calendarEl = document.getElementById('calendar');
 				if (calendarEl) {
-					fetch('http://localhost:3002/events')
+					fetch('http://localhost:3000/events')
 						.then((response) => response.json())
 						.then((events) => {
 							events = events.map((event) => ({
@@ -178,7 +178,7 @@
 	async function editEvent(title, eventId) {
 		try {
 			const eventId = formData.id;
-			const response = await fetch(`http://localhost:3002/events/${eventId}`, {
+			const response = await fetch(`http://localhost:3000/events/${eventId}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'
@@ -204,7 +204,7 @@
 		const eventId = formData.id;
 
 		try {
-			const response = await fetch(`http://localhost:3002/events/${eventId}`, {
+			const response = await fetch(`http://localhost:3000/events/${eventId}`, {
 				method: 'DELETE'
 			});
 
