@@ -122,7 +122,15 @@
 <main>
 	<Popup bind:show={popupVisible} popupData={dataForPopup} />
 
-	<button style="margin-left: 5px;" type="button" on:click={translate}>Translate to {#if lang == "en"}Dutch{:else} English{/if}</button>
+	<div>
+		<button style="margin-left: 5px;" type="button" on:click={translate}>
+			Translate to {#if lang == "en"}
+				Dutch <img src="dutchFlag.png" alt="English Flag" style="width: 1em; height: 1em; position: relative; top: 2px;">
+			{:else}
+				English <img src="englishFlag.png" alt="Dutch Flag" style="width: 1em; height: 1em; position: relative; top: 2px;">
+			{/if}
+		</button>
+			</div>
 
 	<div class="course-grid">
 		{#each courses as course (course.id)}
