@@ -78,7 +78,7 @@
 
 	async function postData(notif) {
 		try {
-			const response = await fetch(`http://localhost:3000/notifications/`, {
+			const response = await fetch(`http://localhost:3000/notifications/1`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

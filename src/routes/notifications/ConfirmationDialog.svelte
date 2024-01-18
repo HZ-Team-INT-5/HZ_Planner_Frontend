@@ -15,7 +15,7 @@
 {#if isOpen}
   <div class="overlay">
     <div class="dialog">
-      <p>Are you sure you want to delete this notification?</p>
+      <p class="confirmation_text">Are you sure you want to delete this notification?</p>
       <button on:click={confirm}>Yes</button>
       <button on:click={cancel}>No</button>
     </div>
@@ -23,6 +23,9 @@
 {/if}
 
 <style>
+  .confirmation_text{
+    font-size: large;
+  }
   .overlay {
     position: fixed;
     top: 0;
