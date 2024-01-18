@@ -1,239 +1,150 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Popup from './Popup.svelte';
+	import ConfirmationDialog from './ConfirmationDialog.svelte';
+
+	// Confirmation Dialog Logic
+
+	let isConfirmationOpen = false;
+	let notifToDelete = null;
+
+	function openConfirmation(notif) {
+		notifToDelete = notif;
+		isConfirmationOpen = true;
+	}
+
+	function handleConfirm() {
+		// Handle confirmation logic
+		console.log('Confirmed');
+		deleteData(notifToDelete);
+		isConfirmationOpen = false;
+	}
+
+	function handleCancel() {
+		// Handle cancellation logic
+		notifToDelete = null;
+		console.log('Cancelled');
+		isConfirmationOpen = false;
+	}
+
+	// Popup Logic
 
 	let popupVisible = false;
-	let dataForPopup = 'Hello from parent!';
+	let dataForPopup = '';
 
-	function updateNotifContent(notif) {
+	function formatDate(dateFromDB){
+		const options = {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false // Use 12-hour clock
+		};
+
+
+		return new Date(dateFromDB).toLocaleString('en-US', options);
+	}
+
+	function updatePopupContent(notif) {
+		let creationTime = formatDate(notif.created_at);
 		let notif_content = `<center><h3><strong>Details:</h3></strong><br/><br/><p style="font-size:large">`;
-		notif_content+= notif.desc + `</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${notif.creationTime}</p>`;
-		/*Object.keys(notif).forEach((key) => {
-			//style key to put space between words and capitalize the first letter
-			// const styled_key = styleKey(key);
-			notif_content += `<p><strong>${key}</strong>: ${notif[key]}</p><br>`;
-		});*/
+		notif_content +=
+			notif.desc +
+			`</p><br/><br/><p style="font-size:small"><strong>Time:</strong> ${creationTime}</p>`;
 
 		dataForPopup = notif_content;
 	}
 
 	function openPopup(notif) {
 		popupVisible = true;
-		updateNotifContent(notif);
+		updatePopupContent(notif);
 		setAsRead(notif);
 	}
 
-	let notifs = [
+	import { onMount } from 'svelte';
+
+	let notifs = [];
+
+	async function fetchData() {
+		try {
+			const response = await fetch('http://localhost:3000/notifications/1'); // notifications/1 is the user id which will later be determined by the session
+			const data = await response.json();
+			notifs = data;
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	}
+
+	async function postData(notif) {
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(notif)
+			});
+			const result = await response.json();
+			console.log('Success:', result);
+		} catch (error) {
+			console.error('Error posting data:', error);
+		}
+	}
+	let dataToPost = [
+		{ desc: 'The exam schedule has been published.', user_id: 1 },
 		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread',
-			creationTime: '12/12/2023',
-			timeElapsed: '2 minutes ago'
-			// time:'2 minutes ago'
-			// database stores the creation time
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'unread'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'unread' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'unread'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'unread' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'unread' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'unread' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'unread' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'read'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'read' },
-		{
-			desc: 'Upcoming Lesson on 28/12/23 on "Introduction to Svelte" has been changed from 10:30 to 10:45',
-			status: 'read'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{
-			desc: 'Reminder: sign up for the upcoming Job Event on Friday 1st of October, it could help you to find an internship!',
-			status: 'read'
-		},
-		{ desc: 'Reminder: make sure to study for the upcoming UX exam', status: 'read' },
-		{ desc: 'Your grades for the last assignment are available', status: 'read' },
-		{ desc: "Don't forget to submit your project proposal", status: 'read' },
-		{ desc: 'You have a meeting with your advisor next week', status: 'read' },
-		{ desc: "Congratulations! You've been selected for the internship program", status: 'read' },
-		{ desc: 'Reminder: Pay your tuition fees by the end of the month', status: 'read' },
-		{ desc: 'Explore the new library resources available for your course', status: 'read' },
-		{
-			desc: 'Important announcement: Class schedule changes starting next month',
-			status: 'read'
-		},
-		{ desc: 'Check out the upcoming workshops on career development', status: 'read' },
-		{ desc: 'Reminder: Return library books by the due date', status: 'read' }
+			desc: 'The exam results have been published. Make sure to register for the retake if you have failed the course as it will not be done automatically!',
+			user_id: 1
+		}
 	];
+
+	async function deleteData(notif) {
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+				method: 'DELETE'
+			});
+
+			const result = await response.json();
+			console.log('Success:', result);
+			fetchData();
+		} catch (error) {
+			console.error('Error deleting data:', error);
+		}
+	}
+
+	async function putData(notif) {
+		let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
+		delete notifForSupabase.timeElapsed;
+
+		try {
+			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(notifForSupabase)
+			});
+
+			const result = await response.json();
+			//console.log("Success:", result);
+		} catch (error) {
+			console.error('Error putting data:', error);
+		}
+	}
+	onMount(() => {
+		fetchData();
+	});
+
 	function setAsRead(notif) {
-		notif.status = 'read';
+		notif.status = 'READ';
+		putData(notif);
 		notifs = notifs;
 		return;
 	}
 	function setAsUnread(notif) {
-		notif.status = 'unread';
+		notif.status = 'UNREAD';
+		putData(notif);
 		notifs = notifs;
 		return;
 	}
@@ -255,7 +166,7 @@
 	}
 	let itemsPerPage = 10;
 
-	const options = ['10', '30', '50', '100', '200'];
+	const options = ['10', '30', '50', '100'];
 
 	$: totalItems = notifs.length;
 	$: totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -263,104 +174,116 @@
 </script>
 
 <main>
+	<ConfirmationDialog
+		isOpen={isConfirmationOpen}
+		onConfirm={handleConfirm}
+		onCancel={handleCancel}
+	/>
 	<Popup bind:show={popupVisible} popupData={dataForPopup} />
 
 	<h2>Notifications 🔔</h2>
 
-	<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 5px;">
-	<!-- Choice for items per page -->
-	<label for="choiceBox">Number of items per page:</label>
-	<select
-		id="choiceBox"
-		on:change={() => {
-			goToPage(1);
-		}}
-		bind:value={itemsPerPage}
+	<div
+		style="display: flex; justified-content: center; align-items: center; flex-direction: column; gap: 5px;"
 	>
-		{#each options as option (option)}
-			<option value={option}>{option}</option>
-		{/each}
-	</select>
-	<!-- DIV FOR CENTERING ELEMENTS -->
-	<br /><br />
-
-	<!-- Notifications -->
-	<ul>
-		{#each displayedNotifs as notif}
-			<div class="notification-parent">
-				<button on:click={() => openPopup(notif)} class="notification_li_button">
-					<li class="notification_li {notif.status}">
-						{notif.desc}
-						<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
-						<br /><br /><span class="notif-time">{notif.timeElapsed}</span>
-					</li>
-				</button>
-				{#if notif.status === 'read'}
-					<div class="set_as_unread_div">
-						<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
-							>Set as unread</button
-						>
-					</div>
-				{/if}
-			</div>
-		{/each}
-	</ul>
-
-	<!-- Pagination -->
-	<div>
-	<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
-	<button
-		class:current-page={currentPage === 1}
-		on:click={() => {
-			goToPage(1);
-		}}>1</button
-	>
-	{#if currentPage - 1 > 1}
-		...
-	{/if}
-
-	{#if currentPage != 1 && currentPage != totalPages}
-		<button class="current-page">{currentPage}</button>
-	{/if}
-
-	{#if totalPages - currentPage > 1}
-		...
-	{/if}
-
-	{#if totalPages != 1}
-		<button
-			class:current-page={currentPage === totalPages}
-			on:click={() => {
-				goToPage(totalPages);
-			}}>{totalPages}</button
+		<!-- Choice for items per page -->
+		<label for="choiceBox">Number of items per page:</label>
+		<select
+			id="choiceBox"
+			on:change={() => {
+				goToPage(1);
+			}}
+			bind:value={itemsPerPage}
 		>
-	{/if}
-	<button on:click={nextPage} disabled={currentPage === totalPages}>Next</button>
-	</div>
-	<br />
-	<br />
+			{#each options as option (option)}
+				<option value={option}>{option}</option>
+			{/each}
+		</select>
+		<!-- DIV FOR CENTERING ELEMENTS -->
+		<br /><br />
 
-	<br />
+		<!-- Notifications -->
+		<ul>
+			{#each displayedNotifs as notif}
+				<div class="notification-parent">
+					<button on:click={() => openPopup(notif)} class="notification_li_button">
+						<li class="notification_li {notif.status}">
+							{notif.desc}
+							<!-- <br /><br /><span class="notif-time">2 minutes ago</span> -->
+							<br /><span class="notif-time">{notif.timeElapsed}</span>
+						</li>
+					</button>
+					{#if notif.status === 'READ'}
+						<div class="set_as_unread_div">
+							<button on:click={() => setAsUnread(notif)} class="set_as_unread_button"
+								>Set as unread</button
+							>
+						</div>
+					{/if}
+					&nbsp;
+					<button on:click={() => openConfirmation(notif)} class="delete_button">
+						<img src="can.png" alt="delete" height="16" />
+					</button>
+				</div>
+			{/each}
+		</ul>
 
-	<!-- Legend Table -->
-	<table class="legend">
-		<th>Legend</th>
+		<!-- Pagination -->
+		<div>
+			<button on:click={prevPage} disabled={currentPage === 1}>Previous</button>
+			<button
+				class:current-page={currentPage === 1}
+				on:click={() => {
+					goToPage(1);
+				}}>1</button
+			>
+			{#if currentPage - 1 > 1}
+				...
+			{/if}
 
-		<tr>
-			<td class="read-td">
-				<ul>
-					<li class="notification read">Read notifications</li>
-				</ul>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<ul>
-					<li class="notification unread">Unread notifications</li>
-				</ul>
-			</td>
-		</tr>
-	</table>
+			{#if currentPage != 1 && currentPage != totalPages}
+				<button class="current-page">{currentPage}</button>
+			{/if}
+
+			{#if totalPages - currentPage > 1}
+				...
+			{/if}
+
+			{#if totalPages > 1}
+				<button
+					class:current-page={currentPage === totalPages}
+					on:click={() => {
+						goToPage(totalPages);
+					}}>{totalPages}</button
+				>
+			{/if}
+			<button on:click={nextPage} disabled={currentPage >= totalPages}>Next</button>
+			<br />
+			<br />
+
+			<button on:click={postData(dataToPost)}>Post Data</button>
+			<br />
+
+			<!-- Legend Table -->
+			<table class="legend">
+				<th>Legend</th>
+
+				<tr>
+					<td class="read-td">
+						<ul>
+							<li class="notification READ">Read notifications</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<ul>
+							<li class="notification UNREAD">Unread notifications</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<footer>
 		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
@@ -428,14 +351,12 @@
 		height: 3.5em;
 		list-style-type: none;
 	}
-
-	.unread {
+	.UNREAD {
 		font-weight: bold;
 		color: var(--unread-notification-font-color);
 		background-color: var(--unread-background-color);
 	}
-
-	.unread::before {
+	.UNREAD::before {
 		/* unread-list-style manually set to have the background rather than the font color */
 		content: var(--unread-list-style-type);
 		color: var(--unread-background-color);
@@ -443,24 +364,20 @@
 		width: 2em;
 		margin-left: -2em;
 	}
-
-	.read {
+	.READ {
 		color: var(--read-notification-font-color);
 		background-color: var(--read-background-color);
 	}
-  
-	.notif-time{
-		font-size:smaller;
-		font-weight:normal;
-	}
 
-	.unread .notif-time{
-		color:rgb(228, 228, 228);
-		
+	.notif-time {
+		font-size: smaller;
+		font-weight: normal;
 	}
-
-	.read .notif-time{
-		color:gray;
+	.UNREAD .notif-time {
+		color: rgb(228, 228, 228);
+	}
+	.READ .notif-time {
+		color: gray;
 	}
 
 	.legend {
@@ -497,4 +414,8 @@
 			width: 100%;
 			height: 60px;
 		}
+	.delete_button {
+		margin-top: 7px;
+		height: 21px;
+	}
 </style>

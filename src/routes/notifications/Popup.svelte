@@ -28,7 +28,6 @@
 </div>
 
 <style>
-	/* Add your styling for the popup here */
 	.popup {
 		position: fixed;
 		top: 0;
