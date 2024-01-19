@@ -27,6 +27,7 @@
     font-size: large;
   }
   .overlay {
+    font-family: 'Helvetica', sans-serif;
     position: fixed;
     top: 0;
     left: 0;

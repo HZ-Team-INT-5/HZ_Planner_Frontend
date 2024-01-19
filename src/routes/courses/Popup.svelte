@@ -15,8 +15,8 @@
 </div>
 
 <style>
-	/* Add your styling for the popup here */
 	.popup {
+		font-family: 'Helvetica', sans-serif;
 		position: fixed;
 		top: 0;
 		left: 0;

@@ -5,8 +5,7 @@
 	function closePopup() {
 		show = false;
 	}
-	// const close = () => (show = false);
-
+	
 	const handle_keydown = (e) => {
 		if (e.key === 'Escape') return closePopup();
 	};
@@ -29,6 +28,7 @@
 
 <style>
 	.popup {
+		font-family: 'Helvetica', sans-serif;
 		position: fixed;
 		top: 0;
 		left: 0;

@@ -90,9 +90,6 @@
 			day: 'numeric',
 			month: 'long',
 			year: 'numeric',
-			//hour: '2-digit',
-			//minute: '2-digit',
-			//hour12: false // Use 12-hour clock
 		};
 
 
@@ -242,7 +239,7 @@
 
 <style>
 	#calendar {
-		font-family: Arial, sans-serif;
+		font-family: 'Helvetica', sans-serif;
 		max-width: 800px;
 		margin: 0 auto;
 		margin-top: 50px;
@@ -273,7 +270,7 @@
 	}
 	footer {
 		font-family: Arial, sans-serif;
-
+		font-weight: bold;
 		position: sticky;
 		background-color: #d1e2ee;
 		color: #3498db;

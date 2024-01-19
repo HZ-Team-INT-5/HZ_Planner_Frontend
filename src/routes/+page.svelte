@@ -167,7 +167,7 @@
 		}
 
 		body {
-			font-family: Arial, sans-serif;
+			font-family: 'Helvetica', sans-serif;
 			background-color: #f0f5f9;
 			display: flex;
 			flex-direction: column;
@@ -283,6 +283,7 @@
 			background-color: #d1e2ee;
 			color: #3498db;
 			text-align: center;
+			font-weight: bold;
 			padding-top: 20px;
 			padding-bottom: 5px;
 			width: 100%;
