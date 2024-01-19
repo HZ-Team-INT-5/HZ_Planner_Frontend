@@ -26,8 +26,8 @@
 						events: events,
 						selectable: true,
 						editable: true,
-						eventColor: 'yellow',
-						eventTextColor: 'red',
+						eventColor: 'lightblue',
+						eventTextColor: 'darkblue',
 						eventSourceFailure: function () {
 							alert('There was an error while fetching events!');
 						},
@@ -142,8 +142,8 @@
 								events: events,
 								selectable: true,
 								editable: true,
-								eventColor: 'yellow',
-								eventTextColor: 'red',
+								eventColor: 'lightblue',
+								eventTextColor: 'darkblue',
 								eventSourceFailure: function () {
 									alert('There was an error while fetching events!');
 								},
