@@ -15,7 +15,6 @@
 
 		Object.keys(course).forEach((key) => {
 			//skips id key
-			// ID 1 TO 9 (INCL.) IS ENGLISH, ID 10 TO 18 IS DUTCH
 			if (key !== 'id') {
 				//style key to put space between words and capitalize the first letter
 				const styled_key = styleKey(key);
@@ -103,20 +102,6 @@
 	onMount(() => {
 		fetchData();
 	});
-
-	// let currentPage = 1;
-	// const pageSize = 9;
-
-	// $: startIndex = (currentPage - 1) * pageSize;
-	// $: endIndex = Math.min(startIndex + pageSize, courses.length);
-	// $: displayedCourses = courses.slice(startIndex, endIndex);
-
-	// /**
-	//  * @param {number} page
-	//  */
-	// function goToPage(page) {
-	// 	currentPage = page;
-	// }
 </script>
 
 <main>
@@ -137,26 +122,11 @@
 			{#if course.language == lang}
 				<button class="course-card" on:click={openPopup(course)}>
 					<h2>{course.title}</h2>
-					<!-- <h3>{course.language}</h3> -->
 				</button>
-			<!-- {:else}
-				<button class="course-card" on:click={openPopup(course)}>
-					<h2>{course.title}</h2>
-				</button> -->
 			{/if}
-
 		{/each}
 	</div>
 
-	<!-- {#if courses.length > pageSize}
-		<div class="pagination">
-			{#each Array.from({ length: Math.ceil(courses.length / pageSize) }, (_, index) => index + 1) as page}
-				<button on:click={() => goToPage(page)} class:active={page === currentPage}>
-					{page}
-				</button>
-			{/each}
-		</div>
-	{/if} -->
 	<footer>
 		<p>&copy; 2023 HZ Planner. All rights reserved.</p>
 	</footer>
@@ -165,6 +135,7 @@
 <style>
 	main {
 		height: 100vh;
+		font-family: 'Helvetica', sans-serif;
 	}
 
 	.course-grid {
@@ -178,10 +149,8 @@
 		background-color: #f4f4f4;
 		color: black;
 		border: 1px solid #ddd;
-		/* padding: 15px; */
 		width: calc(33.33% - 20px);
 		box-sizing: border-box;
-		/* margin-bottom: 20px; */
 		height: 225px;
 	}
 
@@ -190,16 +159,9 @@
 		font-size: 1.5em;
 	}
 
-	/* ?? */
 	p {
 		margin: 5px;
 	}
-
-/* 
-	.pagination {
-		display: flex;
-		margin-top: 20px;
-	} */
 
 	button {
 		background-color: #3498db;
@@ -210,10 +172,6 @@
 		cursor: pointer;
 		margin-left: 5px;
 	}
-/* 
-	button.active {
-		background-color: #2980b9;
-	} */
 
 	footer {
 			position: fixed;
@@ -221,6 +179,7 @@
 			background-color: #d1e2ee;
 			color: #3498db;
 			text-align: center;
+			font-weight: bold;
 			padding-top: 20px;
 			padding-bottom: 5px;
 			width: 100%;

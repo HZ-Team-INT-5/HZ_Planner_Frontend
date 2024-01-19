@@ -39,10 +39,6 @@
 
 				<div class="card right-card">
 					<h2>Digital Version: Your Personalized Academic Assistant</h2>
-					<!-- <p>
-						Experience a new level of organization with our digital version. Linked directly to the
-						school's API, our planner becomes your personalized academic assistant:
-					</p>  -->
 					<br />
 					<p>
 						Real-time Notifications: Receive timely alerts via email about upcoming events,
@@ -71,7 +67,7 @@
 
 <style>
 	body {
-		font-family: Arial, sans-serif;
+		font-family: 'Helvetica', sans-serif;
 		background-color: #f0f5f9;
 		display: flex;
 		flex-direction: column;
@@ -137,6 +133,7 @@
 			background-color: #d1e2ee;
 			color: #3498db;
 			text-align: center;
+			font-weight: bold;
 			padding-top: 20px;
 			padding-bottom: 5px;
 			width: 100%;

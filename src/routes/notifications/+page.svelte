@@ -282,6 +282,7 @@
 
 <style>
 	:root {
+		font-family: 'Helvetica', sans-serif;
 		/* Page in general */
 		--page-background-color: #white;
 		--font-color: rgb(55, 152, 219);
@@ -398,6 +399,7 @@
 		background-color: #d1e2ee;
 		color: #3498db;
 		text-align: center;
+		font-weight: bold;
 		padding-top: 20px;
 		padding-bottom: 5px;
 		margin-top: 5px;
