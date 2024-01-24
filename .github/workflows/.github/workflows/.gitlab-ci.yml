@@ -1,0 +1,8 @@
+stages:
+  - lint
+
+lint:
+  image: node:14
+  script:
+    - npm install
+    - npx eslint .
