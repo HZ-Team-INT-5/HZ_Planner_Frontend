@@ -3,11 +3,11 @@
 	export let popupData: string;
 
 	function closePopup() {
-		show = false;
+	  show = false;
 	}
 	
 	const handle_keydown = (e) => {
-		if (e.key === 'Escape') return closePopup();
+	  if (e.key === 'Escape') return closePopup();
 	};
 </script>
 

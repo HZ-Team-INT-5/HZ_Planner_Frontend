@@ -3,7 +3,7 @@
     export let popupData: string; 
 
 	function closePopup() {
-		show = false;
+	  show = false;
 	}
 </script>
 

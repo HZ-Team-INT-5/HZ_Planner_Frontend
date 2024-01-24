@@ -9,22 +9,22 @@
 	let notifToDelete = null;
 
 	function openConfirmation(notif) {
-		notifToDelete = notif;
-		isConfirmationOpen = true;
+	  notifToDelete = notif;
+	  isConfirmationOpen = true;
 	}
 
 	function handleConfirm() {
-		// Handle confirmation logic
-		console.log('Confirmed');
-		deleteData(notifToDelete);
-		isConfirmationOpen = false;
+	  // Handle confirmation logic
+	  console.log('Confirmed');
+	  deleteData(notifToDelete);
+	  isConfirmationOpen = false;
 	}
 
 	function handleCancel() {
-		// Handle cancellation logic
-		notifToDelete = null;
-		console.log('Cancelled');
-		isConfirmationOpen = false;
+	  // Handle cancellation logic
+	  notifToDelete = null;
+	  console.log('Cancelled');
+	  isConfirmationOpen = false;
 	}
 
 	// Popup Logic
@@ -33,32 +33,32 @@
 	let dataForPopup = '';
 
 	function formatDate(dateFromDB) {
-		const options = {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: false // Use 12-hour clock
-		};
+	  const options = {
+	    day: 'numeric',
+	    month: 'long',
+	    year: 'numeric',
+	    hour: '2-digit',
+	    minute: '2-digit',
+	    hour12: false // Use 12-hour clock
+	  };
 
-		return new Date(dateFromDB).toLocaleString('en-UK', options);
+	  return new Date(dateFromDB).toLocaleString('en-UK', options);
 	}
 
 	function updatePopupContent(notif) {
-		let creationTime = formatDate(notif.created_at);
-		let notif_content = `<center><h3 style="color:rgb(0, 92, 149)"><strong>Details:</h3></strong><br/>`;
-		notif_content +=
+	  const creationTime = formatDate(notif.created_at);
+	  let notif_content = '<center><h3 style="color:rgb(0, 92, 149)"><strong>Details:</h3></strong><br/>';
+	  notif_content +=
 			`<p style="font-size:large">${notif.desc}</p>` +
 			`<br/><p style="font-size:small"><strong>Time:</strong> ${creationTime}</p>`;
 
-		dataForPopup = notif_content;
+	  dataForPopup = notif_content;
 	}
 
 	function openPopup(notif) {
-		popupVisible = true;
-		updatePopupContent(notif);
-		setAsRead(notif);
+	  popupVisible = true;
+	  updatePopupContent(notif);
+	  setAsRead(notif);
 	}
 
 	import { onMount } from 'svelte';
@@ -66,95 +66,95 @@
 	let notifs = [];
 
 	async function fetchData() {
-		try {
-			const response = await fetch('http://localhost:3000/notifications/1'); // notifications/1 is the user id which will later be determined by the session
-			const data = await response.json();
-			notifs = data;
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
+	  try {
+	    const response = await fetch('http://localhost:3000/notifications/1'); // notifications/1 is the user id which will later be determined by the session
+	    const data = await response.json();
+	    notifs = data;
+	  } catch (error) {
+	    console.error('Error fetching data:', error);
+	  }
 	}
 
 	async function postData(notif) {
-		try {
-			const response = await fetch(`http://localhost:3000/notifications/1`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(notif)
-			});
-			const result = await response.json();
-			console.log('Success:', result);
-		} catch (error) {
-			console.error('Error posting data:', error);
-		}
+	  try {
+	    const response = await fetch('http://localhost:3000/notifications/1', {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify(notif)
+	    });
+	    const result = await response.json();
+	    console.log('Success:', result);
+	  } catch (error) {
+	    console.error('Error posting data:', error);
+	  }
 	}
 
 	async function deleteData(notif) {
-		try {
-			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
-				method: 'DELETE'
-			});
+	  try {
+	    const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+	      method: 'DELETE'
+	    });
 
-			const result = await response.json();
-			console.log('Success:', result);
-			fetchData();
-		} catch (error) {
-			console.error('Error deleting data:', error);
-		}
+	    const result = await response.json();
+	    console.log('Success:', result);
+	    fetchData();
+	  } catch (error) {
+	    console.error('Error deleting data:', error);
+	  }
 	}
 
 	async function putData(notif) {
-		let notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
-		delete notifForSupabase.timeElapsed;
+	  const notifForSupabase = { ...notif }; //create a copy of the notification to update the database because it has added properties that are not in the db
+	  delete notifForSupabase.timeElapsed;
 
-		try {
-			const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(notifForSupabase)
-			});
+	  try {
+	    const response = await fetch(`http://localhost:3000/notifications/${notif.id}`, {
+	      method: 'PUT',
+	      headers: {
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify(notifForSupabase)
+	    });
 
-			const result = await response.json();
-			//console.log("Success:", result);
-		} catch (error) {
-			console.error('Error putting data:', error);
-		}
+	    const result = await response.json();
+	    //console.log("Success:", result);
+	  } catch (error) {
+	    console.error('Error putting data:', error);
+	  }
 	}
 	onMount(() => {
-		fetchData();
+	  fetchData();
 	});
 
 	function setAsRead(notif) {
-		notif.status = 'READ';
-		putData(notif);
-		notifs = notifs;
-		return;
+	  notif.status = 'READ';
+	  putData(notif);
+	  notifs = notifs;
+	  return;
 	}
 	function setAsUnread(notif) {
-		notif.status = 'UNREAD';
-		putData(notif);
-		notifs = notifs;
-		return;
+	  notif.status = 'UNREAD';
+	  putData(notif);
+	  notifs = notifs;
+	  return;
 	}
 
 	let currentPage = 1;
 
 	function nextPage() {
-		currentPage += 1;
+	  currentPage += 1;
 	}
 
 	function prevPage() {
-		currentPage -= 1;
+	  currentPage -= 1;
 	}
 
 	function goToPage(number) {
-		if (number >= 1 && number <= totalPages) {
-			currentPage = number;
-		}
+	  if (number >= 1 && number <= totalPages) {
+	    currentPage = number;
+	  }
 	}
 	let itemsPerPage = 10;
 
@@ -183,7 +183,7 @@
 		<select
 			id="choiceBox"
 			on:change={() => {
-				goToPage(1);
+			  goToPage(1);
 			}}
 			bind:value={itemsPerPage}
 		>
@@ -226,7 +226,7 @@
 			<button
 				class:current-page={currentPage === 1}
 				on:click={() => {
-					goToPage(1);
+				  goToPage(1);
 				}}>1</button
 			>
 			{#if currentPage - 1 > 1}
@@ -245,7 +245,7 @@
 				<button
 					class:current-page={currentPage === totalPages}
 					on:click={() => {
-						goToPage(totalPages);
+					  goToPage(totalPages);
 					}}>{totalPages}</button
 				>
 			{/if}

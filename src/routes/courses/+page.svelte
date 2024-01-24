@@ -3,83 +3,83 @@
 
 	let popupVisible = false;
 	let dataForPopup = 'Hello from parent!';
-	let lang = "en";
+	let lang = 'en';
 
 	function 	translate() {
-		if (lang == "en") lang = "nl";
-		else lang = "en";
+	  if (lang == 'en') lang = 'nl';
+	  else lang = 'en';
 	}
 
 	function updateCourseContent(course) {
-		let course_content = '';
+	  let course_content = '';
 
-		Object.keys(course).forEach((key) => {
-			//skips id key
-			if (key !== 'id') {
-				//style key to put space between words and capitalize the first letter
-				const styled_key = styleKey(key);
-				course_content += `<p><strong>${styled_key}</strong>: ${course[key]}</p><br>`;
-			}
-		});
+	  Object.keys(course).forEach((key) => {
+	    //skips id key
+	    if (key !== 'id') {
+	      //style key to put space between words and capitalize the first letter
+	      const styled_key = styleKey(key);
+	      course_content += `<p><strong>${styled_key}</strong>: ${course[key]}</p><br>`;
+	    }
+	  });
 
-		dataForPopup = course_content;
+	  dataForPopup = course_content;
 	}
 
 	/**
 	 * @param {string} key
 	 */
 	function styleKey(key) {
-		if (key === 'title') {
-			return 'Course Name';
-		}
-		if (key == 'startdate') {
-			return 'Start Date';
-		}
-		if (key == 'coursecode') {
-			return 'Course Code';
-		}
-		if (key == 'mainlecturer') {
-			return 'Main Lecturer';
-		}
-		if (key == 'learningoutcome') {
-			return 'Learning Outcome';
-		}
-		if (key == 'importantevents') {
-			return 'Important Events';
-		}
-		if (key == 'language') {
-			return 'Language'
-		}
+	  if (key === 'title') {
+	    return 'Course Name';
+	  }
+	  if (key == 'startdate') {
+	    return 'Start Date';
+	  }
+	  if (key == 'coursecode') {
+	    return 'Course Code';
+	  }
+	  if (key == 'mainlecturer') {
+	    return 'Main Lecturer';
+	  }
+	  if (key == 'learningoutcome') {
+	    return 'Learning Outcome';
+	  }
+	  if (key == 'importantevents') {
+	    return 'Important Events';
+	  }
+	  if (key == 'language') {
+	    return 'Language';
+	  }
  		key = addSpaceBeforeCapital(key);
-		key = key.charAt(0).toUpperCase() + key.slice(1); //changes the first character to upper-case
+	  key = key.charAt(0).toUpperCase() + key.slice(1); //changes the first character to upper-case
 
-		return key;
+	  return key;
 	}
 
 	/**
 	 * @param {string} str
 	 */
 	function addSpaceBeforeCapital(str) {
-		let result = '';
+	  let result = '';
 
-		for (let i = 0; i < str.length; i++) {
-			const currentChar = str.charAt(i);
+	  for (let i = 0; i < str.length; i++) {
+	    const currentChar = str.charAt(i);
 
-			if (currentChar === currentChar.toUpperCase()) {
-				// If the current character is a capital letter
-				result += ' ' + currentChar; // Add a space before the capital letter in the result
-			} else {
-				// If the current character is not a capital letter
-				result += currentChar; // Simply add the current character to the result
-			}
-		}
+	    if (currentChar === currentChar.toUpperCase()) {
+	      // If the current character is a capital letter
+	      result += ' ' + currentChar; // Add a space before the capital letter in the result
+	    } else {
+	      // If the current character is not a capital letter
+	      result += currentChar; // Simply add the current character to the result
+	    }
+	  }
 
-		return result.trim(); // Trim the result to remove leading space (if any)
+	  return result.trim(); // Trim the result to remove leading space (if any)
 	}
 
 	function openPopup(course) {
-		popupVisible = true;
-		updateCourseContent(course);
+	  popupVisible = true;
+	  updateCourseContent(course);
 	}
 
 	/**
@@ -90,17 +90,17 @@
 	let courses = [];
 
 	async function fetchData() {
-		try {
-			const response = await fetch('http://localhost:3000/courses');
-			const data = await response.json();
-			courses = data;
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
+	  try {
+	    const response = await fetch('http://localhost:3000/courses');
+	    const data = await response.json();
+	    courses = data;
+	  } catch (error) {
+	    console.error('Error fetching data:', error);
+	  }
 	}
 
 	onMount(() => {
-		fetchData();
+	  fetchData();
 	});
 </script>
 
@@ -109,7 +109,7 @@
 
 	<div>
 		<button style="margin-left: 5px;" type="button" on:click={translate}>
-			Translate to {#if lang == "en"}
+			Translate to {#if lang == 'en'}
 				Dutch <img src="dutchFlag.png" alt="English Flag" style="width: 1em; height: 1em; position: relative; top: 2px;">
 			{:else}
 				English <img src="englishFlag.png" alt="Dutch Flag" style="width: 1em; height: 1em; position: relative; top: 2px;">
