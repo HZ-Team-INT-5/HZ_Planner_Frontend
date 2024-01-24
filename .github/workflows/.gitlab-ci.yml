@@ -2,7 +2,7 @@ stages:
   - lint
 
 lint:
-  image: node:14
+  image: node:16
   script:
     - npm install
     - npx eslint .
