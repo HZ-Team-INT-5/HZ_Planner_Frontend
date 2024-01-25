@@ -5,7 +5,7 @@
 	import dayGridPlugin from '@fullcalendar/daygrid';
 
 	let calendar;
-	let formData = {
+  let formData = {
 		title: '',
 		start: ''
 	};
