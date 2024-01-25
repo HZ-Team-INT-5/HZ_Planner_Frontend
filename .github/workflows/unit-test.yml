@@ -22,4 +22,4 @@ jobs:
 
     - name: Run unit test for API fetch and smoke test
       run: |
-        npm install && npm test
+        npm install && npm run build && npm test
